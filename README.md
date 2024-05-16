@@ -15,5 +15,4 @@ Word processing, Vectorizing Text, t-SNE, scatter plot visualization
 Intended for the use of True Jesus Church (songs from the TJC hymnbook) 
 
 ### Contributors 
-Bethnay Liu
-Mark Chen
+Bethnay Liu, Mark Chen
