@@ -1,0 +1,39 @@
+{"query": "Holy, Holy, Holy", "relevant_titles": ["Holy, Holy, Holy"], "category": "hymn_title"}
+{"query": "Rock of Ages", "relevant_titles": ["Rock of Ages"], "category": "hymn_title"}
+{"query": "Amazing Grace", "relevant_titles": ["Amazing Grace"], "category": "hymn_title"}
+{"query": "How Great Thou Art", "relevant_titles": ["How Great Thou Art"], "category": "hymn_title"}
+{"query": "Blessed Assurance", "relevant_titles": ["Blessed Assurance"], "category": "hymn_title"}
+{"query": "It Is Well With My Soul", "relevant_titles": ["It Is Well"], "category": "hymn_title"}
+{"query": "What a Friend We Have in Jesus", "relevant_titles": ["What a Friend"], "category": "hymn_title"}
+{"query": "Nearer My God to Thee", "relevant_titles": ["Nearer, My God"], "category": "hymn_title"}
+{"query": "The Old Rugged Cross", "relevant_titles": ["Old Rugged Cross"], "category": "hymn_title"}
+{"query": "Trust and Obey", "relevant_titles": ["Trust and Obey"], "category": "hymn_title"}
+{"query": "holy communion", "relevant_titles": ["At the Cross", "When I Survey", "Bread", "Remembrance", "Blood"], "category": "sermon_topic", "notes": "Lord's Supper themes"}
+{"query": "Lord's Supper", "relevant_titles": ["At the Cross", "When I Survey", "Bread", "Remembrance", "Blood"], "category": "sermon_topic"}
+{"query": "The Grace of God", "relevant_titles": ["Grace", "Amazing Grace", "Marvelous Grace"], "category": "sermon_topic"}
+{"query": "Walking in Faith", "relevant_titles": ["Faith", "Trust", "Obey", "Follow"], "category": "sermon_topic"}
+{"query": "The Power of Prayer", "relevant_titles": ["Prayer", "Sweet Hour", "Tell Jesus"], "category": "sermon_topic"}
+{"query": "Repentance and Forgiveness", "relevant_titles": ["Repent", "Forgive", "Mercy", "Grace"], "category": "sermon_topic"}
+{"query": "The Second Coming", "relevant_titles": ["Coming", "Return", "Trumpet", "Glory"], "category": "sermon_topic"}
+{"query": "God's Providence", "relevant_titles": ["Providence", "Leadeth", "Care", "Guide"], "category": "sermon_topic"}
+{"query": "Comfort in Suffering", "relevant_titles": ["Comfort", "Peace", "Refuge", "Care"], "category": "sermon_topic"}
+{"query": "Evangelism and Witness", "relevant_titles": ["Tell", "Gospel", "Witness", "Story"], "category": "sermon_topic"}
+{"query": "Thanksgiving and Praise", "relevant_titles": ["Thank", "Praise", "Grateful", "Blessing"], "category": "sermon_topic"}
+{"query": "The Cross of Christ", "relevant_titles": ["Cross", "Calvary", "Crucified", "Survey"], "category": "sermon_topic"}
+{"query": "Resurrection and Hope", "relevant_titles": ["Risen", "Alive", "Victory", "Morning"], "category": "sermon_topic"}
+{"query": "Baptism and New Life", "relevant_titles": ["Baptism", "Born Again", "Water", "New Life"], "category": "sermon_topic"}
+{"query": "Ruth and Naomi", "relevant_titles": ["Trust", "Guide", "Leadeth", "Providence", "Faithful", "Care"], "category": "bible_narrative", "notes": "Loyalty and providence themes"}
+{"query": "The Prodigal Son", "relevant_titles": ["Forgive", "Mercy", "Grace", "Return", "Welcome"], "category": "bible_narrative"}
+{"query": "The Good Samaritan", "relevant_titles": ["Love", "Kindness", "Neighbor", "Serve"], "category": "bible_narrative"}
+{"query": "Daniel in the Lions Den", "relevant_titles": ["Faith", "Trust", "Prayer", "Deliver"], "category": "bible_narrative"}
+{"query": "David and Goliath", "relevant_titles": ["Faith", "Trust", "Victory", "Deliver"], "category": "bible_narrative"}
+{"query": "Moses and the Red Sea", "relevant_titles": ["Deliver", "Freedom", "Guide", "Trust", "Pass Over"], "category": "bible_narrative"}
+{"query": "Joseph and His Brothers", "relevant_titles": ["Forgive", "Providence", "Trust", "Faithful"], "category": "bible_narrative"}
+{"query": "Esther", "relevant_titles": ["Courage", "Faith", "Deliver", "Trust"], "category": "bible_narrative"}
+{"query": "Jonah", "relevant_titles": ["Mercy", "Repent", "Forgive", "Obey"], "category": "bible_narrative"}
+{"query": "Noah's Ark", "relevant_titles": ["Faith", "Trust", "Obey", "Deliver", "Promise"], "category": "bible_narrative"}
+{"query": "The Ten Commandments", "relevant_titles": ["Obey", "Command", "Law", "Holy"], "category": "bible_narrative"}
+{"query": "Jesus Feeds the Five Thousand", "relevant_titles": ["Bread", "Provide", "Miracle", "Trust"], "category": "bible_narrative"}
+{"query": "The Lost Sheep", "relevant_titles": ["Shepherd", "Seek", "Find", "Lost", "Rescue"], "category": "bible_narrative"}
+{"query": "Paul's Conversion", "relevant_titles": ["Grace", "Mercy", "Transform", "Light", "Repent"], "category": "bible_narrative"}
+{"query": "Jesus turns water into wine", "relevant_titles": ["Foot Washing Sacrament", "Sacrament", "Feast", "Wine", "Miracle", "Communion"], "category": "bible_narrative", "notes": "Wedding at Cana; sacrament and feast themes"}

@@ -1,0 +1,12 @@
+beautifulsoup4>=4.12.0
+cloudscraper>=1.2.71
+contractions>=0.1.73
+fastapi>=0.115.0
+lxml>=5.0.0
+numpy>=1.26.0
+python-dotenv>=1.0.0
+sentence-transformers>=3.0.0
+stop-words>=2018.7.23
+torch>=2.2.0
+uvicorn[standard]>=0.32.0
+pytest>=8.0.0

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChoirNetwork — Hymn Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">True Jesus Church Hymnal</p>
+        <h1>ChoirNetwork</h1>
+        <p class="subtitle">
+          Enter a sermon title and discover hymns with the closest thematic match.
+        </p>
+      </header>
+
+      <section class="search-card" aria-label="Hymn search">
+        <form id="search-form" class="search-form">
+          <label class="field-label" for="query">Sermon title</label>
+          <div class="input-row">
+            <input
+              id="query"
+              name="query"
+              type="text"
+              placeholder="e.g. The Grace of God, Walking in Faith..."
+              autocomplete="off"
+              required
+            />
+            <button type="submit" id="submit-btn">Find hymns</button>
+          </div>
+
+          <div class="option-row">
+            <label class="mode-option" id="llm-expand-label">
+              <input type="checkbox" id="llm-expand" />
+              <span>AI theme refinement</span>
+            </label>
+            <p id="llm-expand-hint" class="control-hint">
+              Validates curated themes and expands obscure topics (uses OpenAI).
+            </p>
+          </div>
+
+          <div class="mode-toggle" role="radiogroup" aria-label="Result mode">
+            <label class="mode-option">
+              <input type="radio" name="mode" value="top_k" checked />
+              <span>Top results</span>
+            </label>
+            <label class="mode-option">
+              <input type="radio" name="mode" value="threshold" />
+              <span>Similarity threshold</span>
+            </label>
+          </div>
+
+          <div id="top-k-control" class="control">
+            <div class="control-header">
+              <label for="top-k">Number of hymns</label>
+              <output id="top-k-value">10</output>
+            </div>
+            <input id="top-k" type="range" min="3" max="25" value="10" step="1" />
+          </div>
+
+          <div id="threshold-control" class="control hidden">
+            <div class="control-header">
+              <label for="min-score">Minimum similarity</label>
+              <output id="min-score-value">25%</output>
+            </div>
+            <input
+              id="min-score"
+              type="range"
+              min="10"
+              max="70"
+              value="25"
+              step="1"
+            />
+            <p class="control-hint">Shows all hymns above this score (up to 50).</p>
+          </div>
+        </form>
+      </section>
+
+      <section id="status" class="status hidden" role="status" aria-live="polite"></section>
+
+      <section id="results-section" class="results-section hidden">
+        <div class="results-header">
+          <h2 id="results-title">Recommended hymns</h2>
+          <p id="results-meta" class="results-meta"></p>
+        </div>
+        <ol id="results-list" class="results-list"></ol>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Powered by semantic search over 497 TJC hymnal lyrics.</p>
+    </footer>
+
+    <script src="/static/app.js" type="module"></script>
+  </body>
+</html>

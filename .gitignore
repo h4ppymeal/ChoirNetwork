@@ -1,7 +1,7 @@
-Processed_Hymns_copy/
-No_Stopwords/
-Processed_Hymns/
-Embedded_Hymns/
-TEMP_titles.txt
-TJC_titles.txt
-embedding_data
+data/
+.venv/
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+.DS_Store
