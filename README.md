@@ -113,24 +113,6 @@ eval/queries.jsonl   # Labeled eval set
 tests/               # pytest (preprocess, eval metrics, retrieval, expansion)
 ```
 
-## Resume bullets (template)
-
-Fill in metrics after running `python -m choirnetwork eval`:
-
-```text
-• Built a two-stage dense retrieval pipeline over ~497 scraped hymn lyrics: verse-level
-  chunking with title weighting, bi-encoder recall (MiniLM), and cross-encoder reranking
-  (MS MARCO), deployed via FastAPI
-
-• Diagnosed retrieval failure modes on short sermon queries (word-overlap false positives);
-  implemented hybrid query expansion (curated sermon-topic ontology + optional LLM) to map
-  Bible narratives (e.g. Ruth and Naomi) to searchable themes
-
-• Designed a labeled evaluation set (39 queries) and offline IR benchmark (Hit@k, Recall@k,
-  MRR, nDCG); chunked rerank + curated expansion improved Hit@5 by 25.7 pp over bi-encoder
-  baseline (82.1% vs 56.4%)
-```
-
 ## Contributors
 
 Bethany Liu, Mark Chen
