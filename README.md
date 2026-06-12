@@ -1,6 +1,6 @@
 # ChoirNetwork
 
-**Dense retrieval system for thematic hymn recommendation** over the [True Jesus Church hymnal](https://hymnal.tjc.org/hymnal-library). Given a sermon title or Bible narrative (e.g. *Ruth and Naomi*), returns the most thematically similar hymns from a corpus of ~497 scraped lyrics.
+**Dense retrieval system for thematic hymn recommendation** over the [True Jesus Church hymnal](https://hymnal.tjc.org/hymnal-library). Given a sermon title or Bible narrative (e.g. *Ruth and Naomi*), returns the most thematically similar hymns from a corpus of ~525 scraped lyrics.
 
 Built as an end-to-end NLP pipeline: unstructured web ingest → text preprocessing → embedding index → two-stage retrieval → offline evaluation.
 
@@ -95,7 +95,7 @@ Compares three retrieval configs:
 | `chunked_rerank` | + cross-encoder rerank on top 50 |
 | `chunked_rerank_expand` | + curated query expansion |
 
-Reports **Hit@k**, **Recall@k**, **MRR@k**, **nDCG@k**. Run after `build` to get numbers for your resume.
+Reports **Hit@k**, **Recall@k**, **MRR@k**, **nDCG@k**.
 
 ## Project structure
 
