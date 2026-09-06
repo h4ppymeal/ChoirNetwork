@@ -171,9 +171,11 @@ class HymnSimilarityEngine:
         index: HymnIndex,
         *,
         use_reranker: bool = True,
+        use_lyric_boost: bool = True,
     ):
         self.index = index
         self.use_reranker = use_reranker and index.is_chunked
+        self.use_lyric_boost = use_lyric_boost and index.is_chunked
         self._model: SentenceTransformer | None = None
         self._cross_encoder: CrossEncoder | None = None
 
@@ -405,7 +407,8 @@ class HymnSimilarityEngine:
     ) -> list[SimilarHymn]:
         rerank_query = rerank_query or query
         hymn_scores, weighted_chunk_scores = self._chunk_scores(query_embedding)
-        hymn_scores = self._apply_lyric_boost(hymn_scores, query)
+        if self.use_lyric_boost:
+            hymn_scores = self._apply_lyric_boost(hymn_scores, query)
         recall_limit = self.index.recall_k if top_k > 0 else THRESHOLD_RESULT_LIMIT
         title_weight = self.index.title_weight
 
@@ -514,7 +517,16 @@ def save_engine(engine: HymnSimilarityEngine, directory: Path) -> None:
     engine.index.save(directory)
 
 
-def load_engine(directory: Path, *, use_reranker: bool = True) -> HymnSimilarityEngine:
+def load_engine(
+    directory: Path,
+    *,
+    use_reranker: bool = True,
+    use_lyric_boost: bool = True,
+) -> HymnSimilarityEngine:
     index = HymnIndex.load(directory)
     _backfill_lyrics(index)
-    return HymnSimilarityEngine(index, use_reranker=use_reranker)
+    return HymnSimilarityEngine(
+        index,
+        use_reranker=use_reranker,
+        use_lyric_boost=use_lyric_boost,
+    )

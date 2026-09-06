@@ -31,6 +31,10 @@ class HymnRecord:
     lyrics: str
     url: str
     slug: str
+    bible_verse: str = ""
+    bible_reference: str = ""
+    lyrics_source: str = HYMN_BASE_URL
+    pdf_page: int | None = None
 
     @property
     def label(self) -> str:
@@ -346,6 +350,10 @@ def load_hymns(input_path: Path) -> list[HymnRecord]:
                 lyrics=item["lyrics"],
                 url=item["url"],
                 slug=item.get("slug", str(item["number"])),
+                bible_verse=item.get("bible_verse", ""),
+                bible_reference=item.get("bible_reference", ""),
+                lyrics_source=item.get("lyrics_source", HYMN_BASE_URL),
+                pdf_page=item.get("pdf_page"),
             )
         )
     return hymns

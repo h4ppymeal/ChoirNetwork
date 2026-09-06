@@ -17,7 +17,7 @@ ChoirNetwork maps a **sermon title, Bible narrative, or hymn query** to thematic
 | Query expansion | Curated topic map (27+ themes) + optional [`gpt-4o-mini`](https://platform.openai.com/docs/models/gpt-4o-mini) (validates curated themes per story) |
 | Chunking | Title (2.5× weight) + 4-line stanzas |
 | Similarity | Cosine (L2-normalized dot product) |
-| Index | ~497 hymns, ~3k chunks, NumPy `.npy` artifacts |
+| Index | 536 hymns, 3,469 chunks, NumPy `.npy` artifacts |
 
 ## End-to-end pipeline
 
@@ -124,7 +124,8 @@ Expansion enriches the **bi-encoder** query only; cross-encoder still sees the o
 
 ## Offline evaluation
 
-Module: `eval.py` · Labels: `eval/queries.jsonl` (39 queries)
+Module: `eval.py` · Primary labels: `eval/datasets/service_hymns.csv`
+(66 development queries, 40 held-out test queries)
 
 | Metric | Definition |
 |--------|------------|
@@ -137,13 +138,25 @@ Module: `eval.py` · Labels: `eval/queries.jsonl` (39 queries)
 python -m choirnetwork eval --top-k 5
 ```
 
-Configs compared: `bi_encoder_only` → `chunked_rerank` → `chunked_rerank_expand`.
+Configs compared: `bm25` → `bi_encoder_only` → `chunked_rerank` →
+`chunked_rerank_expand` → `full_system`. Each neural row adds one component;
+the final row adds the lyric keyword boost. BM25 uses the standard Okapi
+formula over each hymn's title and lyrics (`k1=1.5`, `b=0.75`) with no
+additional package.
+
+The latest development output is in
+[`eval/results/service-development.md`](../eval/results/service-development.md).
+The labels are two hymns manually observed in each historical service, not
+exhaustive judgments of every hymn that could fit the sermon. The evaluator
+supports `--split development` and `--split test`; the test split remains
+unevaluated.
 
 ## Data artifacts
 
 ```
 data/
 ├── raw/hymns.json
+├── reference/Hymn_English.pdf
 └── index/
     ├── metadata.json
     ├── chunk_embeddings.npy       # (num_chunks, 384)
@@ -158,6 +171,7 @@ Rebuild after corpus or indexing changes: `python -m choirnetwork build`
 | File | Role |
 |------|------|
 | `engine.py` | Two-stage retrieval, chunked index I/O |
+| `bm25.py` | Classical lexical retrieval baseline |
 | `preprocess.py` | NLP preprocessing, stanza splitting |
 | `query_expand.py` | Curated + LLM-validated topic expansion |
 | `theme_boost.py` | Lyric keyword boost during recall |
@@ -177,7 +191,9 @@ pytest tests/    # preprocess, eval metrics, retrieval regression
 
 1. **No explicit hymn theme tags** — retrieval relies on lyric text, not curated metadata
 2. **Cross-encoder domain gap** — MS MARCO is trained on web search, not hymns; sigmoid scores can be miscalibrated (fallback handles this)
-3. **Eval labels are title-substring matched** — refine `eval/queries.jsonl` for stricter ground truth
+3. **Observed selections are incomplete relevance judgments** — the two hymns
+   used in a service may reflect context not stated in its sermon title, and
+   other unselected hymns may still be relevant
 4. **Bi-encoder scores were title-weighted** — now normalized by title weight (2.5) for display; cross-encoder sigmoid scores remain poorly calibrated for hymns
 
 ## References

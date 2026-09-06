@@ -133,6 +133,12 @@ def _build_parser() -> argparse.ArgumentParser:
     eval_parser.add_argument("--eval-file", type=Path, default=DEFAULT_EVAL_PATH)
     eval_parser.add_argument("--top-k", type=int, default=5)
     eval_parser.add_argument(
+        "--split",
+        choices=("development", "test"),
+        default="development",
+        help="Evaluate only one labeled split (unlabeled rows default to development)",
+    )
+    eval_parser.add_argument(
         "--llm-expand",
         action="store_true",
         help="Allow LLM query expansion for uncovered eval queries (requires OPENAI_API_KEY)",
@@ -230,6 +236,7 @@ def cmd_eval(args: argparse.Namespace) -> None:
         args.eval_file,
         k=args.top_k,
         use_llm=args.llm_expand,
+        split=args.split,
     )
     print(format_comparison_table(results))
 
