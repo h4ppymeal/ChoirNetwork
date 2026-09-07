@@ -8,6 +8,8 @@ import re
 import urllib.error
 import urllib.request
 
+from choirnetwork.preprocess import normalize_text_for_match
+
 # Curated sermon / Bible narrative → hymn-theme phrases (offline, no API required).
 SERMON_TOPIC_THEMES: dict[str, str] = {
     "ruth and naomi": (
@@ -148,14 +150,8 @@ def get_last_llm_error() -> str | None:
     return _LAST_LLM_ERROR
 
 
-def _normalize_topic(text: str) -> str:
-    text = text.lower().strip()
-    text = re.sub(r"[^\w\s]", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
-
-
 def _curated_expansion(query: str) -> str | None:
-    normalized = _normalize_topic(query)
+    normalized = normalize_text_for_match(query)
     if normalized in SERMON_TOPIC_THEMES:
         return SERMON_TOPIC_THEMES[normalized]
 

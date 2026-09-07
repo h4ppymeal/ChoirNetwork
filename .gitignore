@@ -1,4 +1,6 @@
-data/
+data/*
+!data/public/
+!data/public/world_english_bible.json
 .venv/
 .env
 __pycache__/

@@ -15,7 +15,7 @@ from choirnetwork.preprocess import (
     preprocess_text,
 )
 from choirnetwork.query_expand import expand_query
-from choirnetwork.scraper import HymnRecord, load_hymns, parse_slug
+from choirnetwork.scraper import HymnRecord, hymn_label, load_hymns, parse_slug
 from choirnetwork.theme_boost import extract_theme_keywords, lyric_keyword_boost
 
 DEFAULT_MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -35,9 +35,7 @@ class SimilarHymn:
 
     @property
     def label(self) -> str:
-        if self.variant:
-            return f"{self.number}{self.variant.upper()}"
-        return str(self.number)
+        return hymn_label(self.number, self.variant)
 
 
 @dataclass
@@ -265,16 +263,23 @@ class HymnSimilarityEngine:
         exclude_slug: str | None = None,
         expand_query_flag: bool = False,
         use_llm_expansion: bool = False,
+        retrieval_query: str | None = None,
+        rerank_query: str | None = None,
     ) -> list[SimilarHymn]:
-        """Rank hymns by similarity. top_k=0 returns all matches above min_score."""
-        search_query = query
-        if expand_query_flag:
+        """Rank hymns by similarity. top_k=0 returns all matches above min_score.
+
+        retrieval_query and rerank_query expose the two query stages for
+        controlled evaluation. They default to the original user query.
+        """
+        search_query = retrieval_query or query
+        if expand_query_flag and retrieval_query is None:
             search_query, _ = expand_query(query, use_llm=use_llm_expansion)
+        cross_encoder_query = rerank_query or query
 
         if self.index.is_chunked:
             return self._search_chunked(
                 search_query,
-                rerank_query=query,
+                rerank_query=cross_encoder_query,
                 query_embedding=self._encode_query(search_query),
                 top_k=top_k,
                 min_score=min_score,

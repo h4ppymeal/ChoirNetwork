@@ -5,7 +5,6 @@ from __future__ import annotations
 import json
 import re
 import time
-import unicodedata
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -14,6 +13,8 @@ from typing import Iterable
 import cloudscraper
 from bs4 import BeautifulSoup
 
+from choirnetwork.preprocess import normalize_text_for_match
+
 HYMN_BASE_URL = "https://hymnal.tjc.org/hymnal-library"
 DEFAULT_HYMN_COUNT = 525
 REQUEST_DELAY_SECONDS = 0.4
@@ -21,6 +22,10 @@ MAX_RETRIES = 3
 HYMN_HEADING_RE = re.compile(r"Hymn\s+([\d\s]+)([A-Za-z]?)\s*-\s*(.+)")
 SLUG_RE = re.compile(r"^(\d+)([a-z]?)$")
 CATALOG_LINK_RE = re.compile(r"/hymnal-library/([\w]+)$")
+
+
+def hymn_label(number: int, variant: str = "") -> str:
+    return f"{number}{variant.upper()}" if variant else str(number)
 
 
 @dataclass(frozen=True)
@@ -38,9 +43,7 @@ class HymnRecord:
 
     @property
     def label(self) -> str:
-        if self.variant:
-            return f"{self.number}{self.variant.upper()}"
-        return str(self.number)
+        return hymn_label(self.number, self.variant)
 
 
 @dataclass(frozen=True)
@@ -53,9 +56,7 @@ class CatalogEntry:
 
     @property
     def label(self) -> str:
-        if self.variant:
-            return f"{self.number}{self.variant.upper()}"
-        return str(self.number)
+        return hymn_label(self.number, self.variant)
 
 
 def parse_slug(slug: str) -> tuple[int, str]:
@@ -67,14 +68,6 @@ def parse_slug(slug: str) -> tuple[int, str]:
 
 def hymn_url(slug: str) -> str:
     return f"{HYMN_BASE_URL}/{slug.lower()}"
-
-
-def normalize_title(title: str) -> str:
-    title = unicodedata.normalize("NFKD", title)
-    title = title.encode("ascii", "ignore").decode("ascii")
-    title = title.lower()
-    title = re.sub(r"[^\w\s]", " ", title)
-    return re.sub(r"\s+", " ", title).strip()
 
 
 def _parse_catalog_label(slug: str, label: str) -> CatalogEntry | None:
@@ -131,19 +124,23 @@ def lookup_by_title(
 ) -> list[CatalogEntry]:
     """Find catalog entries matching a hymn title (exact, then substring)."""
     catalog = catalog or fetch_catalog()
-    normalized_query = normalize_title(title)
+    normalized_query = normalize_text_for_match(title)
     if not normalized_query:
         return []
 
-    exact = [entry for entry in catalog if normalize_title(entry.title) == normalized_query]
+    exact = [
+        entry
+        for entry in catalog
+        if normalize_text_for_match(entry.title) == normalized_query
+    ]
     if exact:
         return exact
 
     substring = [
         entry
         for entry in catalog
-        if normalized_query in normalize_title(entry.title)
-        or normalize_title(entry.title) in normalized_query
+        if normalized_query in normalize_text_for_match(entry.title)
+        or normalize_text_for_match(entry.title) in normalized_query
     ]
     return substring
 

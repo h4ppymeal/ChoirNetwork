@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any, Dict, Literal, Optional
+from typing import Any, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
@@ -76,7 +76,7 @@ app = FastAPI(title="ChoirNetwork", lifespan=lifespan)
 
 
 @app.get("/api/health")
-def health() -> Dict[str, Any]:
+def health() -> dict[str, Any]:
     engine = get_engine()
     return {
         "status": "ok",
@@ -107,21 +107,12 @@ def search_hymns(body: SearchRequest) -> SearchResponse:
         else (query, None)
     )
 
-    if body.mode == "threshold":
-        matches = engine.search(
-            query,
-            top_k=0,
-            min_score=body.min_score,
-            expand_query_flag=expand_query_flag,
-            use_llm_expansion=use_llm,
-        )
-    else:
-        matches = engine.search(
-            query,
-            top_k=body.top_k,
-            expand_query_flag=expand_query_flag,
-            use_llm_expansion=use_llm,
-        )
+    matches = engine.search(
+        query,
+        top_k=0 if body.mode == "threshold" else body.top_k,
+        min_score=body.min_score if body.mode == "threshold" else 0.0,
+        retrieval_query=expanded_query,
+    )
 
     results = [
         HymnResult(

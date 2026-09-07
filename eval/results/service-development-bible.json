@@ -1,0 +1,1015 @@
+{
+  "split": "development",
+  "k": 5,
+  "grounding": {
+    "bible": "World English Bible (Public Domain)",
+    "window_size": 5,
+    "window_stride": 3,
+    "bm25_k1": 1.5,
+    "bm25_b": 0.75,
+    "quotation_min_terms": 4,
+    "quotation_min_coverage": 0.52,
+    "narrative_min_coverage": 0.24,
+    "narrative_min_confidence": 0.5,
+    "narrative_min_terms": 3,
+    "rare_document_frequency": 12
+  },
+  "results": [
+    {
+      "name": "bm25_title",
+      "metrics": {
+        "hit_rate": 0.13636363636363635,
+        "recall": 0.06818181818181818,
+        "mrr": 0.07828282828282827,
+        "ndcg": 0.05717735779498611,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.04716981132075472,
+          "mrr": 0.06289308176100629,
+          "ndcg": 0.043520256535523195,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.25,
+          "ndcg": 0.19342640361727081,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.3,
+          "recall": 0.15,
+          "mrr": 0.13333333333333333,
+          "ndcg": 0.10802792108518125,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "bm25_bible",
+      "metrics": {
+        "hit_rate": 0.10606060606060606,
+        "recall": 0.05303030303030303,
+        "mrr": 0.06111111111111111,
+        "ndcg": 0.044403395702826774,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.04716981132075472,
+          "mrr": 0.06289308176100629,
+          "ndcg": 0.043520256535523195,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.2,
+          "recall": 0.1,
+          "mrr": 0.06999999999999999,
+          "ndcg": 0.062405052000383786,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_title",
+      "metrics": {
+        "hit_rate": 0.10606060606060606,
+        "recall": 0.06818181818181818,
+        "mrr": 0.057323232323232325,
+        "ndcg": 0.05304948235366496,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.043081761006289306,
+          "ndcg": 0.041409287527531285,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.5,
+          "ndcg": 0.3065735963827292,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.1,
+          "recall": 0.1,
+          "mrr": 0.05,
+          "ndcg": 0.06934264036172708,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_title_rerank",
+      "metrics": {
+        "hit_rate": 0.12121212121212122,
+        "recall": 0.07575757575757576,
+        "mrr": 0.06313131313131312,
+        "ndcg": 0.057457641935117765,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.0440251572327044,
+          "ndcg": 0.04191627639174439,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.5,
+          "ndcg": 0.3065735963827292,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.2,
+          "recall": 0.15,
+          "mrr": 0.08333333333333333,
+          "ndcg": 0.09574945261898618,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_title_boost",
+      "metrics": {
+        "hit_rate": 0.12121212121212122,
+        "recall": 0.07575757575757576,
+        "mrr": 0.06792929292929294,
+        "ndcg": 0.060072089903668184,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.03742138364779874,
+          "ndcg": 0.03858560649988514,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.5,
+          "ndcg": 0.3065735963827292,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.2,
+          "recall": 0.15,
+          "mrr": 0.15,
+          "ndcg": 0.1306573596382729,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_title_full",
+      "metrics": {
+        "hit_rate": 0.13636363636363635,
+        "recall": 0.08333333333333333,
+        "mrr": 0.06414141414141414,
+        "ndcg": 0.060644419252784465,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.11320754716981132,
+          "recall": 0.0660377358490566,
+          "mrr": 0.04213836477987422,
+          "ndcg": 0.04356802390691516,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.5,
+          "ndcg": 0.3065735963827292,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.2,
+          "recall": 0.15,
+          "mrr": 0.1,
+          "ndcg": 0.10802792108518125,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_bible",
+      "metrics": {
+        "hit_rate": 0.10606060606060606,
+        "recall": 0.06060606060606061,
+        "mrr": 0.043434343434343436,
+        "ndcg": 0.041898999362340573,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.043081761006289306,
+          "ndcg": 0.041409287527531285,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.1532867981913646,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.1,
+          "recall": 0.05,
+          "mrr": 0.025,
+          "ndcg": 0.026406812257259087,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_bible_rerank",
+      "metrics": {
+        "hit_rate": 0.10606060606060606,
+        "recall": 0.06818181818181818,
+        "mrr": 0.047979797979797977,
+        "ndcg": 0.04816753295382294,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.0440251572327044,
+          "ndcg": 0.04191627639174439,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.16666666666666666,
+          "ndcg": 0.1532867981913646,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.1,
+          "recall": 0.1,
+          "mrr": 0.05,
+          "ndcg": 0.06509209298071325,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_bible_boost",
+      "metrics": {
+        "hit_rate": 0.10606060606060606,
+        "recall": 0.06060606060606061,
+        "mrr": 0.04267676767676768,
+        "ndcg": 0.041491871941078534,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.09433962264150944,
+          "recall": 0.05660377358490566,
+          "mrr": 0.03742138364779874,
+          "ndcg": 0.03858560649988514,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.25,
+          "ndcg": 0.19342640361727081,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.1,
+          "recall": 0.05,
+          "mrr": 0.03333333333333333,
+          "ndcg": 0.03065735963827292,
+          "queries_evaluated": 10
+        }
+      }
+    },
+    {
+      "name": "dense_bible_full",
+      "metrics": {
+        "hit_rate": 0.13636363636363635,
+        "recall": 0.08333333333333333,
+        "mrr": 0.060353535353535354,
+        "ndcg": 0.05814002291229826,
+        "queries_evaluated": 66
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.11320754716981132,
+          "recall": 0.0660377358490566,
+          "mrr": 0.04213836477987422,
+          "ndcg": 0.04356802390691516,
+          "queries_evaluated": 53
+        },
+        "explicit_reference": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 1
+        },
+        "narrative": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.125,
+          "ndcg": 0.13203406128629544,
+          "queries_evaluated": 2
+        },
+        "quotation": {
+          "hit_rate": 0.2,
+          "recall": 0.15,
+          "mrr": 0.15,
+          "ndcg": 0.12640681225725908,
+          "queries_evaluated": 10
+        }
+      }
+    }
+  ],
+  "grounding_audit": [
+    {
+      "original_query": "A Day of Good News",
+      "grounded_query": "A Day of Good News",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Return and Revive",
+      "grounded_query": "Return and Revive",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Crises of Rebuilding the Temple (Ezra 4)",
+      "grounded_query": "The Crises of Rebuilding the Temple (Ezra 4). Bible context: Ezra 4:1-24. Now when the adversaries of Judah and Benjamin heard that the children of the captivity were building a temple to Yahweh, the God of Israel, they came near to Zerubbabel, and to the heads of fathers’ households, and said to them, “Let us build with you, for we seek your God as you do; and we have been sacrificing to him since the days of Esar Haddon king of Assyria, who brought us up here.” But Zerubbabel, Jeshua, and the rest of the heads of fathers’ households of Israel said to them, “You have nothing to do with us in building a house to our God; but we ourselves together will build to Yahweh, the God of Israel, as King Cyrus the king of Persia has commanded us.” Then the people of the land weakened the hands of the people of Judah, and troubled them in building. They hired counselors against them to frustrate their purpose all the days of Cyrus king of Persia, even until the reign of Darius king of Persia. In the reign of Ahasuerus, in the beginning of his reign, they wrote an accusation against the inhabitants of Judah and Jerusalem. In the days of Artaxerxes, Bishlam, Mithredath, Tabeel, and the rest of his companions wrote to Artaxerxes king of Persia; and the writing of the letter was written in Syrian and delivered in the Syrian language. Rehum the chancellor and Shimshai the scribe wrote a letter against Jerusalem to Artaxerxes the king as follows. Then Rehum the chancellor, Shimshai the scribe, and the rest of their companions, the Dinaites, and the Apharsathchites, the Tarpelites, the Apharsites, the Archevites, the Babylonians, the Shushanchites, the Dehaites, the Elamites, and the rest of the nations whom the great and noble Osnappar brought over and settled in the city of Samaria, and in the rest of the country beyond the River, and so forth, wrote. This is the copy of the letter that they sent: i To King Artaxerxes, from your servants, the people beyond the River. i1 Be it known to the king that the Jews who came up from you have come to us to Jerusalem. They are building the rebellious and bad city, and have finished the walls and repaired the foundations. Be it known now to the king that if this city is built and the walls finished, they will not pay tribute, custom, or toll, and in the end it will be hurtful to the kings. Now because we eat the salt of the palace and it is not appropriate for us to see the king’s dishonor, therefore we have sent and informed the king, that search may be made in the book of the records of your fathers. You will see in the book of the records, and know that this city is a rebellious city, and hurtful to kings and provinces, and that they have started rebellions within it in the past. That is why this city was destroyed. We inform the king that if this city is built and the walls finished, then you will have no possession beyond the River. Then the king sent an answer to Rehum the chancellor, and to Shimshai the scribe, and to the rest of their companions who live in Samaria, and in the rest of the country beyond the River: i Peace. i1 The letter which you sent to us has been plainly read before me. I decreed, and search has been made, and it was found that this city has made insurrection against kings in the past, and that rebellion and revolts have been made in it. There have also been mighty kings over Jerusalem who have ruled over all the country beyond the River; and tribute, custom, and toll was paid to them. Make a decree now to cause these men to cease, and that this city not be built until a decree is made by me. Be careful that you not be slack doing so. Why should damage grow to the hurt of the kings? Then when the copy of King Artaxerxes’ letter was read before Rehum, Shimshai the scribe, and their companions, they went in haste to Jerusalem to the Jews, and made them to cease by force of arms. Then work stopped on God’s house which is at Jerusalem. It stopped until the second year of the reign of Darius king of Persia.",
+      "reference": "Ezra 4:1-24",
+      "passage_text": "Now when the adversaries of Judah and Benjamin heard that the children of the captivity were building a temple to Yahweh, the God of Israel, they came near to Zerubbabel, and to the heads of fathers’ households, and said to them, “Let us build with you, for we seek your God as you do; and we have been sacrificing to him since the days of Esar Haddon king of Assyria, who brought us up here.” But Zerubbabel, Jeshua, and the rest of the heads of fathers’ households of Israel said to them, “You have nothing to do with us in building a house to our God; but we ourselves together will build to Yahweh, the God of Israel, as King Cyrus the king of Persia has commanded us.” Then the people of the land weakened the hands of the people of Judah, and troubled them in building. They hired counselors against them to frustrate their purpose all the days of Cyrus king of Persia, even until the reign of Darius king of Persia. In the reign of Ahasuerus, in the beginning of his reign, they wrote an accusation against the inhabitants of Judah and Jerusalem. In the days of Artaxerxes, Bishlam, Mithredath, Tabeel, and the rest of his companions wrote to Artaxerxes king of Persia; and the writing of the letter was written in Syrian and delivered in the Syrian language. Rehum the chancellor and Shimshai the scribe wrote a letter against Jerusalem to Artaxerxes the king as follows. Then Rehum the chancellor, Shimshai the scribe, and the rest of their companions, the Dinaites, and the Apharsathchites, the Tarpelites, the Apharsites, the Archevites, the Babylonians, the Shushanchites, the Dehaites, the Elamites, and the rest of the nations whom the great and noble Osnappar brought over and settled in the city of Samaria, and in the rest of the country beyond the River, and so forth, wrote. This is the copy of the letter that they sent: i To King Artaxerxes, from your servants, the people beyond the River. i1 Be it known to the king that the Jews who came up from you have come to us to Jerusalem. They are building the rebellious and bad city, and have finished the walls and repaired the foundations. Be it known now to the king that if this city is built and the walls finished, they will not pay tribute, custom, or toll, and in the end it will be hurtful to the kings. Now because we eat the salt of the palace and it is not appropriate for us to see the king’s dishonor, therefore we have sent and informed the king, that search may be made in the book of the records of your fathers. You will see in the book of the records, and know that this city is a rebellious city, and hurtful to kings and provinces, and that they have started rebellions within it in the past. That is why this city was destroyed. We inform the king that if this city is built and the walls finished, then you will have no possession beyond the River. Then the king sent an answer to Rehum the chancellor, and to Shimshai the scribe, and to the rest of their companions who live in Samaria, and in the rest of the country beyond the River: i Peace. i1 The letter which you sent to us has been plainly read before me. I decreed, and search has been made, and it was found that this city has made insurrection against kings in the past, and that rebellion and revolts have been made in it. There have also been mighty kings over Jerusalem who have ruled over all the country beyond the River; and tribute, custom, and toll was paid to them. Make a decree now to cause these men to cease, and that this city not be built until a decree is made by me. Be careful that you not be slack doing so. Why should damage grow to the hurt of the kings? Then when the copy of King Artaxerxes’ letter was read before Rehum, Shimshai the scribe, and their companions, they went in haste to Jerusalem to the Jews, and made them to cease by force of arms. Then work stopped on God’s house which is at Jerusalem. It stopped until the second year of the reign of Darius king of Persia.",
+      "source": "explicit_reference",
+      "confidence": 1.0,
+      "query_type": "explicit_reference"
+    },
+    {
+      "original_query": "Who Returned to Jerusalem?",
+      "grounded_query": "Who Returned to Jerusalem?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "\"I am coming soon!\", said the Lord",
+      "grounded_query": "\"I am coming soon!\", said the Lord. Bible context: Revelation 22:4-8. They will see his face, and his name will be on their foreheads. There will be no night, and they need no lamp light or sun light; for the Lord God will illuminate them. They will reign forever and ever. He said to me, “These words are faithful and true. The Lord God of the spirits of the prophets sent his angel to show to his bondservants the things which must happen soon.” “Behold, I am coming soon! Blessed is he who keeps the words of the prophecy of this book.” Now I, John, am the one who heard and saw these things. When I heard and saw, I fell down to worship before the feet of the angel who had shown me these things.",
+      "reference": "Revelation 22:4-8",
+      "passage_text": "They will see his face, and his name will be on their foreheads. There will be no night, and they need no lamp light or sun light; for the Lord God will illuminate them. They will reign forever and ever. He said to me, “These words are faithful and true. The Lord God of the spirits of the prophets sent his angel to show to his bondservants the things which must happen soon.” “Behold, I am coming soon! Blessed is he who keeps the words of the prophecy of this book.” Now I, John, am the one who heard and saw these things. When I heard and saw, I fell down to worship before the feet of the angel who had shown me these things.",
+      "source": "passage_bm25",
+      "confidence": 0.8928571428571428,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Be Rich Toward God",
+      "grounded_query": "Be Rich Toward God",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The King with a Tender Heart Revived the Kingdom",
+      "grounded_query": "The King with a Tender Heart Revived the Kingdom",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Shall Two Walk Together, Except They Have Agreed?",
+      "grounded_query": "Shall Two Walk Together, Except They Have Agreed?. Bible context: Amos 3:1-5. Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of the land of Egypt, saying: “I have chosen only you of all the families of the earth. Therefore I will punish you for all of your sins.” Do two walk together, unless they have agreed? Will a lion roar in the thicket, when he has no prey? Does a young lion cry out of his den, if he has caught nothing? Can a bird fall in a trap on the earth, where no snare is set for him? Does a snare spring up from the ground, when there is nothing to catch?",
+      "reference": "Amos 3:1-5",
+      "passage_text": "Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of the land of Egypt, saying: “I have chosen only you of all the families of the earth. Therefore I will punish you for all of your sins.” Do two walk together, unless they have agreed? Will a lion roar in the thicket, when he has no prey? Does a young lion cry out of his den, if he has caught nothing? Can a bird fall in a trap on the earth, where no snare is set for him? Does a snare spring up from the ground, when there is nothing to catch?",
+      "source": "passage_bm25",
+      "confidence": 0.6329629174190645,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "The Valley of Berachah",
+      "grounded_query": "The Valley of Berachah",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "King Joash",
+      "grounded_query": "King Joash",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Samuel",
+      "grounded_query": "The Home of Samuel",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Rebekah",
+      "grounded_query": "The Home of Rebekah",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Abraham",
+      "grounded_query": "The Home of Abraham",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Noah",
+      "grounded_query": "The Home of Noah",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Moses",
+      "grounded_query": "The Home of Moses",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Home of Peter",
+      "grounded_query": "The Home of Peter",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "A Joyful Life",
+      "grounded_query": "A Joyful Life",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Knowing that the testing of your faith produces endurance",
+      "grounded_query": "Knowing that the testing of your faith produces endurance. Bible context: James 1:1-5. James, a servant of God and of the Lord Jesus Christ, to the twelve tribes which are in the Dispersion: Greetings. Count it all joy, my brothers, when you fall into various temptations, knowing that the testing of your faith produces endurance. Let endurance have its perfect work, that you may be perfect and complete, lacking in nothing. But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
+      "reference": "James 1:1-5",
+      "passage_text": "James, a servant of God and of the Lord Jesus Christ, to the twelve tribes which are in the Dispersion: Greetings. Count it all joy, my brothers, when you fall into various temptations, knowing that the testing of your faith produces endurance. Let endurance have its perfect work, that you may be perfect and complete, lacking in nothing. But if any of you lacks wisdom, let him ask of God, who gives to all liberally and without reproach, and it will be given to him.",
+      "source": "passage_bm25",
+      "confidence": 1.0,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Identity in Christ",
+      "grounded_query": "Identity in Christ",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Solomon's Prayer at the Temple Dedication",
+      "grounded_query": "Solomon's Prayer at the Temple Dedication. Bible context: John 10:19-23. Therefore a division arose again among the Jews because of these words. Many of them said, “He has a demon and is insane! Why do you listen to him?” Others said, “These are not the sayings of one possessed by a demon. It isn’t possible for a demon to open the eyes of the blind, is it?” It was the Feast of the Dedication at Jerusalem. It was winter, and Jesus was walking in the temple, in Solomon’s porch.",
+      "reference": "John 10:19-23",
+      "passage_text": "Therefore a division arose again among the Jews because of these words. Many of them said, “He has a demon and is insane! Why do you listen to him?” Others said, “These are not the sayings of one possessed by a demon. It isn’t possible for a demon to open the eyes of the blind, is it?” It was the Feast of the Dedication at Jerusalem. It was winter, and Jesus was walking in the temple, in Solomon’s porch.",
+      "source": "passage_bm25",
+      "confidence": 0.6637980760635533,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Who is the Greatest",
+      "grounded_query": "Who is the Greatest",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Orderly Worshiping",
+      "grounded_query": "Orderly Worshiping",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Let the Lord Jesus Reign in Our Lives",
+      "grounded_query": "Let the Lord Jesus Reign in Our Lives",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Excel Even More",
+      "grounded_query": "Excel Even More",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Your Sins Have Been Forgiven",
+      "grounded_query": "Your Sins Have Been Forgiven",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Letter to the Church in Smyrna",
+      "grounded_query": "The Letter to the Church in Smyrna",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Rejoicing in Hope",
+      "grounded_query": "Rejoicing in Hope",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Do Not Give the Devil a Foothold",
+      "grounded_query": "Do Not Give the Devil a Foothold",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "What Do You Ask?",
+      "grounded_query": "What Do You Ask?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Benjamites Who Helped David",
+      "grounded_query": "The Benjamites Who Helped David",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Do two walk together unless they have agreed to meet?",
+      "grounded_query": "Do two walk together unless they have agreed to meet?. Bible context: Amos 3:1-5. Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of the land of Egypt, saying: “I have chosen only you of all the families of the earth. Therefore I will punish you for all of your sins.” Do two walk together, unless they have agreed? Will a lion roar in the thicket, when he has no prey? Does a young lion cry out of his den, if he has caught nothing? Can a bird fall in a trap on the earth, where no snare is set for him? Does a snare spring up from the ground, when there is nothing to catch?",
+      "reference": "Amos 3:1-5",
+      "passage_text": "Hear this word that Yahweh has spoken against you, children of Israel, against the whole family which I brought up out of the land of Egypt, saying: “I have chosen only you of all the families of the earth. Therefore I will punish you for all of your sins.” Do two walk together, unless they have agreed? Will a lion roar in the thicket, when he has no prey? Does a young lion cry out of his den, if he has caught nothing? Can a bird fall in a trap on the earth, where no snare is set for him? Does a snare spring up from the ground, when there is nothing to catch?",
+      "source": "passage_bm25",
+      "confidence": 0.8387168153519586,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Then he believed in the Lord, and He credited it to him as righteousness",
+      "grounded_query": "Then he believed in the Lord, and He credited it to him as righteousness. Bible context: Genesis 15:4-8. Behold, Yahweh’s word came to him, saying, “This man will not be your heir, but he who will come out of your own body will be your heir.” Yahweh brought him outside, and said, “Look now toward the sky, and count the stars, if you are able to count them.” He said to Abram, “So your offspring will be.” He believed in Yahweh, who credited it to him for righteousness. He said to Abram, “I am Yahweh who brought you out of Ur of the Chaldees, to give you this land to inherit it.” He said, “Lord Yahweh, how will I know that I will inherit it?”",
+      "reference": "Genesis 15:4-8",
+      "passage_text": "Behold, Yahweh’s word came to him, saying, “This man will not be your heir, but he who will come out of your own body will be your heir.” Yahweh brought him outside, and said, “Look now toward the sky, and count the stars, if you are able to count them.” He said to Abram, “So your offspring will be.” He believed in Yahweh, who credited it to him for righteousness. He said to Abram, “I am Yahweh who brought you out of Ur of the Chaldees, to give you this land to inherit it.” He said, “Lord Yahweh, how will I know that I will inherit it?”",
+      "source": "passage_bm25",
+      "confidence": 0.732515008224777,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Put on the Helmet of Salvation",
+      "grounded_query": "Put on the Helmet of Salvation",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Turning Our Lives Around: From Pain to Honour",
+      "grounded_query": "Turning Our Lives Around: From Pain to Honour",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Carry the ark of God back into the city!",
+      "grounded_query": "Carry the ark of God back into the city!",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Hezekiah, Who did What Was Right in the Sight of the Lord",
+      "grounded_query": "Hezekiah, Who did What Was Right in the Sight of the Lord. Bible context: 2 Chronicles 32:22-26. Thus Yahweh saved Hezekiah and the inhabitants of Jerusalem from the hand of Sennacherib the king of Assyria and from the hand of all others, and guided them on every side. Many brought gifts to Yahweh to Jerusalem, and precious things to Hezekiah king of Judah, so that he was exalted in the sight of all nations from then on. In those days Hezekiah was terminally ill, and he prayed to Yahweh; and he spoke to him, and gave him a sign. But Hezekiah didn’t reciprocate appropriate to the benefit done for him, because his heart was lifted up. Therefore there was wrath on him, Judah, and Jerusalem. However, Hezekiah humbled himself for the pride of his heart, both he and the inhabitants of Jerusalem, so that Yahweh’s wrath didn’t come on them in the days of Hezekiah.",
+      "reference": "2 Chronicles 32:22-26",
+      "passage_text": "Thus Yahweh saved Hezekiah and the inhabitants of Jerusalem from the hand of Sennacherib the king of Assyria and from the hand of all others, and guided them on every side. Many brought gifts to Yahweh to Jerusalem, and precious things to Hezekiah king of Judah, so that he was exalted in the sight of all nations from then on. In those days Hezekiah was terminally ill, and he prayed to Yahweh; and he spoke to him, and gave him a sign. But Hezekiah didn’t reciprocate appropriate to the benefit done for him, because his heart was lifted up. Therefore there was wrath on him, Judah, and Jerusalem. However, Hezekiah humbled himself for the pride of his heart, both he and the inhabitants of Jerusalem, so that Yahweh’s wrath didn’t come on them in the days of Hezekiah.",
+      "source": "passage_bm25",
+      "confidence": 0.5419148633411711,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Such Great Faith",
+      "grounded_query": "Such Great Faith",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "What is the Reason for the Hope in You?",
+      "grounded_query": "What is the Reason for the Hope in You?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Put on the preparation of the gospel",
+      "grounded_query": "Put on the preparation of the gospel",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Fifteen Extra Years",
+      "grounded_query": "Fifteen Extra Years",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Joyful Meeting",
+      "grounded_query": "Joyful Meeting",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Love is not Jealous",
+      "grounded_query": "Love is not Jealous",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Elisha Became Sick",
+      "grounded_query": "Elisha Became Sick",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Spiritual Significance of Laying of Hands",
+      "grounded_query": "Spiritual Significance of Laying of Hands",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Peace Which Surpasses All Comprehension",
+      "grounded_query": "Peace Which Surpasses All Comprehension. Bible context: Philippians 4:7-11. And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus. Finally, brothers, whatever things are true, whatever things are honorable, whatever things are just, whatever things are pure, whatever things are lovely, whatever things are of good report: if there is any virtue and if there is anything worthy of praise, think about these things. Do the things which you learned, received, heard, and saw in me, and the God of peace will be with you. But I rejoice in the Lord greatly that now at length you have revived your thought for me; in which you did indeed take thought, but you lacked opportunity. Not that I speak because of lack, for I have learned in whatever state I am, to be content in it.",
+      "reference": "Philippians 4:7-11",
+      "passage_text": "And the peace of God, which surpasses all understanding, will guard your hearts and your thoughts in Christ Jesus. Finally, brothers, whatever things are true, whatever things are honorable, whatever things are just, whatever things are pure, whatever things are lovely, whatever things are of good report: if there is any virtue and if there is anything worthy of praise, think about these things. Do the things which you learned, received, heard, and saw in me, and the God of peace will be with you. But I rejoice in the Lord greatly that now at length you have revived your thought for me; in which you did indeed take thought, but you lacked opportunity. Not that I speak because of lack, for I have learned in whatever state I am, to be content in it.",
+      "source": "passage_bm25",
+      "confidence": 0.9,
+      "query_type": "narrative"
+    },
+    {
+      "original_query": "My Spirit Rejoices in God",
+      "grounded_query": "My Spirit Rejoices in God",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Axe Head Floated",
+      "grounded_query": "The Axe Head Floated. Bible context: 2 Kings 6:4-8. So he went with them. When they came to the Jordan, they cut down wood. But as one was cutting down a tree, the ax head fell into the water. Then he cried out and said, “Alas, my master! For it was borrowed.” The man of God asked, “Where did it fall?” He showed him the place. He cut down a stick, threw it in there, and made the iron float. He said, “Take it.” So he put out his hand and took it. Now the king of Syria was at war against Israel; and he took counsel with his servants, saying, “My camp will be in such and such a place.”",
+      "reference": "2 Kings 6:4-8",
+      "passage_text": "So he went with them. When they came to the Jordan, they cut down wood. But as one was cutting down a tree, the ax head fell into the water. Then he cried out and said, “Alas, my master! For it was borrowed.” The man of God asked, “Where did it fall?” He showed him the place. He cut down a stick, threw it in there, and made the iron float. He said, “Take it.” So he put out his hand and took it. Now the king of Syria was at war against Israel; and he took counsel with his servants, saying, “My camp will be in such and such a place.”",
+      "source": "passage_bm25",
+      "confidence": 0.9375,
+      "query_type": "narrative"
+    },
+    {
+      "original_query": "Heal the Water at Jericho",
+      "grounded_query": "Heal the Water at Jericho",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "I Have Learned the Secret",
+      "grounded_query": "I Have Learned the Secret",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Rejoice in the Lord Always",
+      "grounded_query": "Rejoice in the Lord Always",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Summit of Pisgah",
+      "grounded_query": "The Summit of Pisgah",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "You shall not put the Lord your God to the test",
+      "grounded_query": "You shall not put the Lord your God to the test. Bible context: Matthew 22:34-38. But the Pharisees, when they heard that he had silenced the Sadducees, gathered themselves together. One of them, a lawyer, asked him a question, testing him. “Teacher, which is the greatest commandment in the law?” Jesus said to him, “‘You shall love the Lord your God with all your heart, with all your soul, and with all your mind.’ This is the first and great commandment.",
+      "reference": "Matthew 22:34-38",
+      "passage_text": "But the Pharisees, when they heard that he had silenced the Sadducees, gathered themselves together. One of them, a lawyer, asked him a question, testing him. “Teacher, which is the greatest commandment in the law?” Jesus said to him, “‘You shall love the Lord your God with all your heart, with all your soul, and with all your mind.’ This is the first and great commandment.",
+      "source": "passage_bm25",
+      "confidence": 0.6928602973036978,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "The Ravens Beside the Brook Cherith",
+      "grounded_query": "The Ravens Beside the Brook Cherith. Bible context: 1 Kings 17:4-8. You shall drink from the brook. I have commanded the ravens to feed you there.” So he went and did according to Yahweh’s word, for he went and lived by the brook Cherith that is before the Jordan. The ravens brought him bread and meat in the morning, and bread and meat in the evening; and he drank from the brook. After a while, the brook dried up, because there was no rain in the land. Yahweh’s word came to him, saying,",
+      "reference": "1 Kings 17:4-8",
+      "passage_text": "You shall drink from the brook. I have commanded the ravens to feed you there.” So he went and did according to Yahweh’s word, for he went and lived by the brook Cherith that is before the Jordan. The ravens brought him bread and meat in the morning, and bread and meat in the evening; and he drank from the brook. After a while, the brook dried up, because there was no rain in the land. Yahweh’s word came to him, saying,",
+      "source": "passage_bm25",
+      "confidence": 0.7435511374228498,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Elijah prayed for the Rain",
+      "grounded_query": "Elijah prayed for the Rain",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "It is More Blessed to Give than to Receive",
+      "grounded_query": "It is More Blessed to Give than to Receive",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Receiving Peace in Jesus Christ",
+      "grounded_query": "Receiving Peace in Jesus Christ. Bible context: Romans 1:4-8. who was declared to be the Son of God with power according to the Spirit of holiness, by the resurrection from the dead, Jesus Christ our Lord, through whom we received grace and apostleship for obedience of faith among all the nations for his name’s sake; among whom you are also called to belong to Jesus Christ; to all who are in Rome, beloved of God, called to be saints: Grace to you and peace from God our Father and the Lord Jesus Christ. First, I thank my God through Jesus Christ for all of you, that your faith is proclaimed throughout the whole world.",
+      "reference": "Romans 1:4-8",
+      "passage_text": "who was declared to be the Son of God with power according to the Spirit of holiness, by the resurrection from the dead, Jesus Christ our Lord, through whom we received grace and apostleship for obedience of faith among all the nations for his name’s sake; among whom you are also called to belong to Jesus Christ; to all who are in Rome, beloved of God, called to be saints: Grace to you and peace from God our Father and the Lord Jesus Christ. First, I thank my God through Jesus Christ for all of you, that your faith is proclaimed throughout the whole world.",
+      "source": "passage_bm25",
+      "confidence": 0.85,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "A Church of Greater Nobility",
+      "grounded_query": "A Church of Greater Nobility",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "And tongues like fire appeared to them, distributing themselves, and rested on each one of them",
+      "grounded_query": "And tongues like fire appeared to them, distributing themselves, and rested on each one of them",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Succession in the Family",
+      "grounded_query": "Succession in the Family",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "From Paul to Timothy",
+      "grounded_query": "From Paul to Timothy",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Great Wisdom Saved a Small City",
+      "grounded_query": "Great Wisdom Saved a Small City",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "There is a Man Greater Than Jonah",
+      "grounded_query": "There is a Man Greater Than Jonah",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Jesus, Our Lord and King",
+      "grounded_query": "Jesus, Our Lord and King",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Lord Jesus' Commission - Preach the Gospel",
+      "grounded_query": "Lord Jesus' Commission - Preach the Gospel",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Be Joyful in the Hope",
+      "grounded_query": "Be Joyful in the Hope",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Do not Leave the Devil a Foothold",
+      "grounded_query": "Do not Leave the Devil a Foothold",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    }
+  ]
+}

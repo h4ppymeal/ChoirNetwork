@@ -53,12 +53,29 @@ Run one split with:
 
 ```bash
 python -m choirnetwork eval --top-k 5 --split development
-python -m choirnetwork eval --top-k 5 --split test
+python -m choirnetwork eval --top-k 5 --split test --confirm-held-out
+```
+
+The development command writes both Markdown and JSON artifacts. Its isolated
+matrix compares title-only and Bible-grounded BM25/dense retrieval, then
+toggles reranking and lyric boost one at a time. Query-type metrics use
+deterministic categories from the grounder: explicit reference, quotation,
+narrative, or abstract.
+
+The Bible corpus is the public-domain World English Bible. Rebuild the pinned,
+checksum-verified verse file with:
+
+```bash
+python eval/build_bible_corpus.py
 ```
 
 Do not run the test command until configuration choices are frozen. Do not add
 labels because a retrieved hymn "looks good"; that makes the evaluated system
 influence its own answer key.
+
+The current frozen candidate is `dense_title_full`; development Bible
+grounding was retained as a negative ablation and is disabled. The held-out
+test command above has not been run and still requires explicit confirmation.
 
 ## Metrics
 

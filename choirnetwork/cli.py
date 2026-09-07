@@ -6,6 +6,7 @@ import argparse
 import sys
 from pathlib import Path
 
+from choirnetwork.bible_grounding import BibleGrounder, DEFAULT_BIBLE_PATH
 from choirnetwork.config import load_env
 
 from choirnetwork.engine import (
@@ -15,13 +16,16 @@ from choirnetwork.engine import (
 )
 from choirnetwork.eval import (
     DEFAULT_EVAL_PATH,
+    DEFAULT_RESULTS_PATH,
     compare_retrieval_configs,
     format_comparison_table,
+    write_evaluation_report,
 )
 from choirnetwork.query_expand import expand_query, get_last_llm_error
 from choirnetwork.scraper import (
     DEFAULT_HYMN_COUNT,
     fetch_catalog,
+    hymn_label,
     load_hymns,
     lookup_by_title,
     save_hymns,
@@ -95,6 +99,17 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Use OpenAI for query expansion when no curated theme exists (requires OPENAI_API_KEY)",
     )
+    search_parser.add_argument(
+        "--bible-ground",
+        action="store_true",
+        help="Ground the title in a public-domain Bible passage before retrieval",
+    )
+    search_parser.add_argument(
+        "--bible-path",
+        type=Path,
+        default=DEFAULT_BIBLE_PATH,
+        help="Path to the normalized Bible verse corpus",
+    )
 
     number_parser = subparsers.add_parser(
         "search-by-number",
@@ -139,9 +154,21 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Evaluate only one labeled split (unlabeled rows default to development)",
     )
     eval_parser.add_argument(
-        "--llm-expand",
+        "--bible-path",
+        type=Path,
+        default=DEFAULT_BIBLE_PATH,
+        help="Path to the normalized Bible verse corpus",
+    )
+    eval_parser.add_argument(
+        "--results-dir",
+        type=Path,
+        default=DEFAULT_RESULTS_PATH,
+        help="Directory for Markdown and JSON evaluation artifacts",
+    )
+    eval_parser.add_argument(
+        "--confirm-held-out",
         action="store_true",
-        help="Allow LLM query expansion for uncovered eval queries (requires OPENAI_API_KEY)",
+        help="Required acknowledgement before the one-time held-out test run",
     )
 
     return parser
@@ -183,10 +210,29 @@ def cmd_build(args: argparse.Namespace) -> None:
 
 
 def cmd_search(args: argparse.Namespace) -> None:
+    if args.bible_ground and (args.expand or args.llm_expand):
+        raise SystemExit(
+            "--bible-ground cannot be combined with --expand or --llm-expand"
+        )
+
     engine = load_engine(args.index, use_reranker=not args.no_rerank)
     display_query = args.query
+    retrieval_query = None
+    rerank_query = None
+    if args.bible_ground:
+        grounding = BibleGrounder.load(args.bible_path).ground(args.query)
+        retrieval_query = grounding.grounded_query
+        rerank_query = grounding.grounded_query
+        if grounding.reference:
+            print(
+                f"Bible grounding ({grounding.query_type}, "
+                f"confidence={grounding.confidence:.2f}): {grounding.reference}"
+            )
+        else:
+            print("Bible grounding abstained; searching the original title.")
     if args.expand or args.llm_expand:
         display_query, source = expand_query(args.query, use_llm=args.llm_expand)
+        retrieval_query = display_query
         if source:
             print(f"Expanded ({source}): {display_query}")
         elif args.llm_expand:
@@ -209,8 +255,8 @@ def cmd_search(args: argparse.Namespace) -> None:
     matches = engine.search(
         args.query,
         top_k=args.top_k,
-        expand_query_flag=args.expand or args.llm_expand,
-        use_llm_expansion=args.llm_expand,
+        retrieval_query=retrieval_query,
+        rerank_query=rerank_query,
     )
     _print_matches(display_query, matches)
 
@@ -231,14 +277,23 @@ def cmd_serve(args: argparse.Namespace) -> None:
 
 
 def cmd_eval(args: argparse.Namespace) -> None:
-    results = compare_retrieval_configs(
+    if args.split == "test" and not args.confirm_held_out:
+        raise SystemExit(
+            "Refusing to run the held-out split without --confirm-held-out. "
+            "Freeze and commit the retrieval configuration first."
+        )
+    report = compare_retrieval_configs(
         args.index,
         args.eval_file,
         k=args.top_k,
-        use_llm=args.llm_expand,
         split=args.split,
+        bible_path=args.bible_path,
     )
-    print(format_comparison_table(results))
+    print(format_comparison_table(report))
+    markdown_path, json_path = write_evaluation_report(
+        report, args.results_dir
+    )
+    print(f"Wrote {markdown_path} and {json_path}")
 
 
 def cmd_search_by_number(args: argparse.Namespace) -> None:
@@ -247,10 +302,8 @@ def cmd_search_by_number(args: argparse.Namespace) -> None:
         slug = engine.resolve_slug(args.hymn_id)
         idx = engine.index.slug_index(slug)
         source_title = engine.index.titles[idx]
-        source_label = (
-            f"{engine.index.numbers[idx]}{engine.index.variants[idx].upper()}"
-            if engine.index.variants[idx]
-            else str(engine.index.numbers[idx])
+        source_label = hymn_label(
+            engine.index.numbers[idx], engine.index.variants[idx]
         )
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc

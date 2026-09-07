@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import string
+import unicodedata
 from dataclasses import dataclass
 
 import contractions
@@ -35,6 +36,12 @@ def normalize_whitespace(text: str) -> str:
     return re.sub(r"\s+", " ", text).strip()
 
 
+def normalize_text_for_match(text: str) -> str:
+    text = unicodedata.normalize("NFKD", text)
+    text = text.encode("ascii", "ignore").decode("ascii").lower()
+    return normalize_whitespace(re.sub(r"[^\w\s]", " ", text))
+
+
 def preprocess_text(text: str, *, remove_stop_words: bool = True) -> str:
     text = contractions.fix(text.lower().translate(PUNCTUATION_TABLE))
     text = text.replace("--", " ").replace("-", " ")
@@ -47,8 +54,18 @@ def preprocess_text(text: str, *, remove_stop_words: bool = True) -> str:
     return text
 
 
-def preprocess_hymn(title: str, lyrics: str, *, remove_stop_words: bool = True) -> str:
-    return preprocess_text(f"{title}\n{lyrics}".strip(), remove_stop_words=remove_stop_words)
+def _split_at_markers(lines: list[str], marker: re.Pattern) -> list[str]:
+    stanzas: list[str] = []
+    current: list[str] = []
+    for line in lines:
+        if marker.match(line) and current:
+            stanzas.append("\n".join(current))
+            current = [line]
+        else:
+            current.append(line)
+    if current:
+        stanzas.append("\n".join(current))
+    return stanzas
 
 
 def split_lyrics_into_stanzas(lyrics: str, *, stanza_size: int = DEFAULT_STANZA_SIZE) -> list[str]:
@@ -65,31 +82,9 @@ def split_lyrics_into_stanzas(lyrics: str, *, stanza_size: int = DEFAULT_STANZA_
     if not lines:
         return []
 
-    if any(NUMBERED_STANZA_RE.match(line) for line in lines):
-        stanzas: list[str] = []
-        current: list[str] = []
-        for line in lines:
-            if NUMBERED_STANZA_RE.match(line) and current:
-                stanzas.append("\n".join(current))
-                current = [line]
-            else:
-                current.append(line)
-        if current:
-            stanzas.append("\n".join(current))
-        return stanzas
-
-    if any(STANZA_MARKER_RE.match(line) for line in lines):
-        stanzas = []
-        current: list[str] = []
-        for line in lines:
-            if STANZA_MARKER_RE.match(line) and current:
-                stanzas.append("\n".join(current))
-                current = [line]
-            else:
-                current.append(line)
-        if current:
-            stanzas.append("\n".join(current))
-        return stanzas
+    for marker in (NUMBERED_STANZA_RE, STANZA_MARKER_RE):
+        if any(marker.match(line) for line in lines):
+            return _split_at_markers(lines, marker)
 
     return [
         "\n".join(lines[index : index + stanza_size])

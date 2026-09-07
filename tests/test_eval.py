@@ -3,9 +3,15 @@
 import json
 
 from choirnetwork.bm25 import BM25Retriever
+from choirnetwork.bible_grounding import GroundingResult
 from choirnetwork.eval import (
+    RETRIEVAL_CONFIGS,
+    EvalMetrics,
     EvalQuery,
+    EvalRunResult,
+    EvaluationReport,
     evaluate_retriever,
+    format_report_markdown,
     hit_rate_at_k,
     load_eval_queries,
     mrr_at_k,
@@ -13,6 +19,7 @@ from choirnetwork.eval import (
     prepare_eval_queries,
     recall_at_k,
     resolve_relevant_slugs,
+    write_evaluation_report,
 )
 from choirnetwork.engine import HymnIndex
 
@@ -121,3 +128,62 @@ def test_load_eval_queries_reads_observed_service_csv(tmp_path):
             "notes": "manually verified",
         }
     ]
+
+
+def test_retrieval_configs_isolate_grounding_reranker_and_boost():
+    configs = {config.name: config for config in RETRIEVAL_CONFIGS}
+
+    assert configs["dense_title"].use_bible is False
+    assert configs["dense_title_rerank"].use_reranker is True
+    assert configs["dense_title_rerank"].use_lyric_boost is False
+    assert configs["dense_title_boost"].use_reranker is False
+    assert configs["dense_title_boost"].use_lyric_boost is True
+    assert configs["dense_title_full"].use_bible is False
+    assert configs["dense_title_full"].use_reranker is True
+    assert configs["dense_title_full"].use_lyric_boost is True
+    assert configs["dense_bible"].use_bible is True
+    assert configs["dense_bible"].use_reranker is False
+    assert configs["dense_bible"].use_lyric_boost is False
+    assert configs["dense_bible_rerank"].use_reranker is True
+    assert configs["dense_bible_rerank"].use_lyric_boost is False
+    assert configs["dense_bible_boost"].use_reranker is False
+    assert configs["dense_bible_boost"].use_lyric_boost is True
+    assert configs["dense_bible_full"].use_reranker is True
+    assert configs["dense_bible_full"].use_lyric_boost is True
+
+
+def test_evaluation_report_writes_category_metrics_and_grounding_audit(tmp_path):
+    metrics = EvalMetrics(1.0, 0.5, 1.0, 0.75, 1)
+    report = EvaluationReport(
+        results=(
+            EvalRunResult(
+                name="dense_bible",
+                metrics=metrics,
+                k=5,
+                category_metrics={"quotation": metrics},
+            ),
+        ),
+        groundings=(
+            GroundingResult(
+                original_query="Believe in the Lord",
+                grounded_query="Believe in the Lord. Bible context: Acts 16:31.",
+                reference="Acts 16:31",
+                passage_text="Believe in the Lord Jesus Christ.",
+                source="passage_bm25",
+                confidence=0.9,
+                query_type="quotation",
+            ),
+        ),
+        split="development",
+        k=5,
+    )
+
+    markdown = format_report_markdown(report)
+    markdown_path, json_path = write_evaluation_report(report, tmp_path)
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+
+    assert "## Quotation" in markdown
+    assert "Acts 16:31" in markdown
+    assert markdown_path.exists()
+    assert payload["results"][0]["categories"]["quotation"]["ndcg"] == 0.75
+    assert payload["grounding_audit"][0]["original_query"] == "Believe in the Lord"

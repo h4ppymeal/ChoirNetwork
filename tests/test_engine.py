@@ -1,6 +1,9 @@
 """Tests for chunked indexing and retrieval."""
 
+import numpy as np
+
 from choirnetwork.engine import (
+    HymnIndex,
     HymnSimilarityEngine,
     _filter_displayable,
     _display_percent,
@@ -35,6 +38,46 @@ def test_filter_displayable_drops_zero_percent_matches():
     ]
     filtered = _filter_displayable(matches)
     assert [match.slug for match in filtered] == ["1"]
+
+
+def test_search_accepts_distinct_retrieval_and_rerank_queries(monkeypatch):
+    index = HymnIndex(
+        model_name="unused",
+        numbers=[1],
+        variants=[""],
+        slugs=["1"],
+        titles=["Example"],
+        chunk_embeddings=np.zeros((1, 2)),
+        chunk_hymn_indices=np.zeros(1, dtype=int),
+        chunk_weights=np.ones(1),
+        chunk_snippets=["Example"],
+    )
+    engine = HymnSimilarityEngine(index)
+    captured = {}
+
+    def encode(query):
+        captured["encoded"] = query
+        return np.zeros(2)
+
+    def search_chunked(query, **kwargs):
+        captured["retrieval"] = query
+        captured["rerank"] = kwargs["rerank_query"]
+        return []
+
+    monkeypatch.setattr(engine, "_encode_query", encode)
+    monkeypatch.setattr(engine, "_search_chunked", search_chunked)
+
+    engine.search(
+        "original",
+        retrieval_query="title plus passage",
+        rerank_query="rerank with passage",
+    )
+
+    assert captured == {
+        "encoded": "title plus passage",
+        "retrieval": "title plus passage",
+        "rerank": "rerank with passage",
+    }
 
 
 def _sample_hymns() -> list[HymnRecord]:

@@ -5,14 +5,30 @@ from __future__ import annotations
 import csv
 import json
 import math
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Callable
 
+from choirnetwork.bible_grounding import (
+    BM25_B,
+    BM25_K1,
+    DEFAULT_BIBLE_PATH,
+    NARRATIVE_MIN_COVERAGE,
+    NARRATIVE_MIN_CONFIDENCE,
+    NARRATIVE_MIN_TERMS,
+    PASSAGE_WINDOW_SIZE,
+    PASSAGE_WINDOW_STRIDE,
+    QUOTATION_MIN_COVERAGE,
+    QUOTATION_MIN_TERMS,
+    RARE_DOCUMENT_FREQUENCY,
+    BibleGrounder,
+    GroundingResult,
+)
 from choirnetwork.bm25 import BM25Retriever
 from choirnetwork.engine import HymnIndex, HymnSimilarityEngine, load_engine
 
 DEFAULT_EVAL_PATH = Path("eval/datasets/service_hymns.csv")
+DEFAULT_RESULTS_PATH = Path("eval/results")
 
 
 @dataclass(frozen=True)
@@ -22,6 +38,7 @@ class EvalQuery:
     category: str
     notes: str = ""
     split: str = "development"
+    grounding_type: str = "unknown"
 
 
 @dataclass(frozen=True)
@@ -38,6 +55,60 @@ class EvalRunResult:
     name: str
     metrics: EvalMetrics
     k: int
+    category_metrics: dict[str, EvalMetrics] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class RetrievalConfig:
+    name: str
+    retriever: str
+    use_bible: bool
+    use_reranker: bool = False
+    use_lyric_boost: bool = False
+
+
+@dataclass(frozen=True)
+class EvaluationReport:
+    results: tuple[EvalRunResult, ...]
+    groundings: tuple[GroundingResult, ...]
+    split: str
+    k: int
+
+
+RETRIEVAL_CONFIGS = (
+    RetrievalConfig("bm25_title", "bm25", False),
+    RetrievalConfig("bm25_bible", "bm25", True),
+    RetrievalConfig("dense_title", "dense", False),
+    RetrievalConfig(
+        "dense_title_rerank",
+        "dense",
+        False,
+        use_reranker=True,
+    ),
+    RetrievalConfig(
+        "dense_title_boost",
+        "dense",
+        False,
+        use_lyric_boost=True,
+    ),
+    RetrievalConfig(
+        "dense_title_full",
+        "dense",
+        False,
+        use_reranker=True,
+        use_lyric_boost=True,
+    ),
+    RetrievalConfig("dense_bible", "dense", True),
+    RetrievalConfig("dense_bible_rerank", "dense", True, use_reranker=True),
+    RetrievalConfig("dense_bible_boost", "dense", True, use_lyric_boost=True),
+    RetrievalConfig(
+        "dense_bible_full",
+        "dense",
+        True,
+        use_reranker=True,
+        use_lyric_boost=True,
+    ),
+)
 
 
 def load_eval_queries(path: Path) -> list[dict]:
@@ -147,29 +218,6 @@ def ndcg_at_k(retrieved: list[str], relevant: set[str], k: int) -> float:
     return dcg(gains) / ideal_dcg
 
 
-def evaluate_engine(
-    engine: HymnSimilarityEngine,
-    eval_queries: list[EvalQuery],
-    *,
-    k: int = 5,
-    expand_query_flag: bool = False,
-    use_llm: bool = False,
-) -> EvalMetrics:
-    return evaluate_retriever(
-        eval_queries,
-        lambda query, top_k: [
-            match.slug
-            for match in engine.search(
-                query,
-                top_k=top_k,
-                expand_query_flag=expand_query_flag,
-                use_llm_expansion=use_llm,
-            )
-        ],
-        k=k,
-    )
-
-
 def evaluate_retriever(
     eval_queries: list[EvalQuery],
     retrieve: Callable[[str, int], list[str]],
@@ -203,14 +251,87 @@ def evaluate_retriever(
     )
 
 
+def _metrics_from_rankings(
+    eval_queries: list[EvalQuery],
+    rankings: list[list[str]],
+    *,
+    k: int,
+) -> EvalMetrics:
+    if len(eval_queries) != len(rankings):
+        raise ValueError("Each evaluation query requires one ranking")
+    if not eval_queries:
+        return EvalMetrics(0.0, 0.0, 0.0, 0.0, 0)
+
+    values = []
+    for query, retrieved in zip(eval_queries, rankings):
+        relevant = set(query.relevant_slugs)
+        values.append(
+            (
+                hit_rate_at_k(retrieved, relevant, k),
+                recall_at_k(retrieved, relevant, k),
+                mrr_at_k(retrieved, relevant, k),
+                ndcg_at_k(retrieved, relevant, k),
+            )
+        )
+    count = len(values)
+    return EvalMetrics(
+        hit_rate=sum(value[0] for value in values) / count,
+        recall=sum(value[1] for value in values) / count,
+        mrr=sum(value[2] for value in values) / count,
+        ndcg=sum(value[3] for value in values) / count,
+        queries_evaluated=count,
+    )
+
+
+def _category_metrics(
+    eval_queries: list[EvalQuery],
+    rankings: list[list[str]],
+    *,
+    k: int,
+) -> dict[str, EvalMetrics]:
+    grouped: dict[str, tuple[list[EvalQuery], list[list[str]]]] = {}
+    for query, ranking in zip(eval_queries, rankings):
+        category_queries, category_rankings = grouped.setdefault(
+            query.grounding_type, ([], [])
+        )
+        category_queries.append(query)
+        category_rankings.append(ranking)
+    return {
+        category: _metrics_from_rankings(queries, list(category_rankings), k=k)
+        for category, (queries, category_rankings) in sorted(grouped.items())
+    }
+
+
+def _queries_with_grounding(
+    eval_queries: list[EvalQuery],
+    grounder: BibleGrounder,
+) -> tuple[list[EvalQuery], list[EvalQuery], list[GroundingResult]]:
+    title_queries: list[EvalQuery] = []
+    bible_queries: list[EvalQuery] = []
+    groundings: list[GroundingResult] = []
+    for query in eval_queries:
+        grounding = grounder.ground(query.query)
+        groundings.append(grounding)
+        shared = {
+            "relevant_slugs": query.relevant_slugs,
+            "category": query.category,
+            "notes": query.notes,
+            "split": query.split,
+            "grounding_type": grounding.query_type,
+        }
+        title_queries.append(EvalQuery(query=query.query, **shared))
+        bible_queries.append(EvalQuery(query=grounding.grounded_query, **shared))
+    return title_queries, bible_queries, groundings
+
+
 def compare_retrieval_configs(
     index_path: Path,
     eval_path: Path,
     *,
     k: int = 5,
-    use_llm: bool = False,
-    split: str | None = "development",
-) -> list[EvalRunResult]:
+    split: str = "development",
+    bible_path: Path = DEFAULT_BIBLE_PATH,
+) -> EvaluationReport:
     index = load_engine(index_path).index
     eval_queries = prepare_eval_queries(index, eval_path, split=split)
     if not eval_queries:
@@ -219,53 +340,67 @@ def compare_retrieval_configs(
             f"Build the index first, then verify labels in {eval_path}."
         )
 
-    neural_configs = [
-        ("bi_encoder_only", False, False, False),
-        ("chunked_rerank", True, False, False),
-        ("chunked_rerank_expand", True, True, False),
-        ("full_system", True, True, True),
-    ]
-
+    grounder = BibleGrounder.load(bible_path)
+    title_queries, bible_queries, groundings = _queries_with_grounding(
+        eval_queries, grounder
+    )
     bm25 = BM25Retriever(index)
-    bm25_metrics = evaluate_retriever(
-        eval_queries,
-        lambda query, top_k: [
-            match.slug for match in bm25.search(query, top_k=top_k)
-        ],
+    engines: dict[tuple[bool, bool], HymnSimilarityEngine] = {}
+    results: list[EvalRunResult] = []
+
+    for config in RETRIEVAL_CONFIGS:
+        queries = bible_queries if config.use_bible else title_queries
+        if config.retriever == "bm25":
+            rankings = [
+                [match.slug for match in bm25.search(query.query, top_k=k)]
+                for query in queries
+            ]
+        else:
+            engine_key = (config.use_reranker, config.use_lyric_boost)
+            if engine_key not in engines:
+                engines[engine_key] = load_engine(
+                    index_path,
+                    use_reranker=config.use_reranker,
+                    use_lyric_boost=config.use_lyric_boost,
+                )
+            engine = engines[engine_key]
+            rankings = [
+                [match.slug for match in engine.search(query.query, top_k=k)]
+                for query in queries
+            ]
+        results.append(
+            EvalRunResult(
+                name=config.name,
+                metrics=_metrics_from_rankings(queries, list(rankings), k=k),
+                k=k,
+                category_metrics=_category_metrics(queries, rankings, k=k),
+            )
+        )
+
+    return EvaluationReport(
+        results=tuple(results),
+        groundings=tuple(groundings),
+        split=split,
         k=k,
     )
-    results = [EvalRunResult(name="bm25", metrics=bm25_metrics, k=k)]
-
-    for name, use_reranker, expand_flag, use_lyric_boost in neural_configs:
-        engine = load_engine(
-            index_path,
-            use_reranker=use_reranker,
-            use_lyric_boost=use_lyric_boost,
-        )
-        metrics = evaluate_engine(
-            engine,
-            eval_queries,
-            k=k,
-            expand_query_flag=expand_flag,
-            use_llm=use_llm,
-        )
-        results.append(EvalRunResult(name=name, metrics=metrics, k=k))
-
-    return results
 
 
-def format_comparison_table(results: list[EvalRunResult]) -> str:
-    if not results:
+def format_comparison_table(report: EvaluationReport) -> str:
+    if not report.results:
         return "No eval results."
 
-    k = results[0].k
-    header = f"Retrieval evaluation (k={k}, n={results[0].metrics.queries_evaluated})"
+    k = report.k
+    header = (
+        f"Retrieval evaluation "
+        f"(split={report.split}, k={k}, "
+        f"n={report.results[0].metrics.queries_evaluated})"
+    )
     lines = [
         header,
         "-" * len(header),
         f"{'Config':<26} {'Hit@k':>8} {'Recall@k':>10} {'MRR@k':>8} {'nDCG@k':>8}",
     ]
-    for result in results:
+    for result in report.results:
         metrics = result.metrics
         lines.append(
             f"{result.name:<26} "
@@ -275,3 +410,121 @@ def format_comparison_table(results: list[EvalRunResult]) -> str:
             f"{metrics.ndcg:>7.1%}"
         )
     return "\n".join(lines)
+
+
+def _metric_dict(metrics: EvalMetrics) -> dict:
+    return asdict(metrics)
+
+
+def report_payload(report: EvaluationReport) -> dict:
+    return {
+        "split": report.split,
+        "k": report.k,
+        "grounding": {
+            "bible": "World English Bible (Public Domain)",
+            "window_size": PASSAGE_WINDOW_SIZE,
+            "window_stride": PASSAGE_WINDOW_STRIDE,
+            "bm25_k1": BM25_K1,
+            "bm25_b": BM25_B,
+            "quotation_min_terms": QUOTATION_MIN_TERMS,
+            "quotation_min_coverage": QUOTATION_MIN_COVERAGE,
+            "narrative_min_coverage": NARRATIVE_MIN_COVERAGE,
+            "narrative_min_confidence": NARRATIVE_MIN_CONFIDENCE,
+            "narrative_min_terms": NARRATIVE_MIN_TERMS,
+            "rare_document_frequency": RARE_DOCUMENT_FREQUENCY,
+        },
+        "results": [
+            {
+                "name": result.name,
+                "metrics": _metric_dict(result.metrics),
+                "categories": {
+                    category: _metric_dict(metrics)
+                    for category, metrics in result.category_metrics.items()
+                },
+            }
+            for result in report.results
+        ],
+        "grounding_audit": [asdict(grounding) for grounding in report.groundings],
+    }
+
+
+def _markdown_metrics(metrics: EvalMetrics) -> str:
+    return (
+        f"{metrics.queries_evaluated} | {metrics.hit_rate:.1%} | "
+        f"{metrics.recall:.1%} | {metrics.mrr:.1%} | {metrics.ndcg:.1%}"
+    )
+
+
+def format_report_markdown(report: EvaluationReport) -> str:
+    lines = [
+        f"# Bible-grounded {report.split} results",
+        "",
+        f"`k={report.k}` · World English Bible (Public Domain) · "
+        "curated and LLM expansion disabled",
+        "",
+        "## Aggregate",
+        "",
+        f"| Configuration | n | Hit@{report.k} | Recall@{report.k} | "
+        f"MRR@{report.k} | nDCG@{report.k} |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
+    for result in report.results:
+        lines.append(f"| {result.name} | {_markdown_metrics(result.metrics)} |")
+
+    categories = sorted(
+        {
+            category
+            for result in report.results
+            for category in result.category_metrics
+        }
+    )
+    for category in categories:
+        lines.extend(
+            [
+                "",
+                f"## {category.replace('_', ' ').title()}",
+                "",
+                f"| Configuration | n | Hit@{report.k} | "
+                f"Recall@{report.k} | MRR@{report.k} | nDCG@{report.k} |",
+                "|---|---:|---:|---:|---:|---:|",
+            ]
+        )
+        for result in report.results:
+            metrics = result.category_metrics.get(category)
+            if metrics:
+                lines.append(f"| {result.name} | {_markdown_metrics(metrics)} |")
+
+    lines.extend(
+        [
+            "",
+            "## Grounding audit",
+            "",
+            "| Query | Type | Reference | Confidence |",
+            "|---|---|---|---:|",
+        ]
+    )
+    for grounding in report.groundings:
+        query = grounding.original_query.replace("|", "\\|")
+        reference = (grounding.reference or "—").replace("|", "\\|")
+        lines.append(
+            f"| {query} | {grounding.query_type} | {reference} | "
+            f"{grounding.confidence:.2f} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_evaluation_report(
+    report: EvaluationReport,
+    output_directory: Path = DEFAULT_RESULTS_PATH,
+) -> tuple[Path, Path]:
+    output_directory.mkdir(parents=True, exist_ok=True)
+    stem = f"service-{report.split}-bible"
+    json_path = output_directory / f"{stem}.json"
+    markdown_path = output_directory / f"{stem}.md"
+    json_path.write_text(
+        json.dumps(report_payload(report), indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    markdown_path.write_text(format_report_markdown(report), encoding="utf-8")
+    return markdown_path, json_path
