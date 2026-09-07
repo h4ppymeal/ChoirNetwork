@@ -8,7 +8,8 @@ python -m choirnetwork eval --top-k 5 --split development
 
 Run on September 7, 2026 using 66 development queries from
 `eval/datasets/service_hymns.csv`. Curated and LLM expansion were disabled.
-The 40-query test split was not evaluated.
+The 40-query test split was not inspected while selecting the candidate; it
+was evaluated once after the configuration was frozen.
 
 | Configuration | Hit@5 | Recall@5 | MRR@5 | nDCG@5 |
 |---|---:|---:|---:|---:|

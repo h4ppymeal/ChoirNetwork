@@ -74,12 +74,14 @@ labels because a retrieved hymn "looks good"; that makes the evaluated system
 influence its own answer key.
 
 The current frozen candidate is `dense_title_full`; development Bible
-grounding was retained as a negative ablation and is disabled. The held-out
-test command above has not been run and still requires explicit confirmation.
+grounding was retained as a negative ablation and is disabled. After freezing
+commit `1ca1aff`, the test command above was run once on September 7, 2026.
+The candidate reached 7.2% nDCG@5 versus 5.1% for BM25. The complete output is
+in [`results/service-test-bible.md`](results/service-test-bible.md).
 
 ## Metrics
 
 See [`docs/ENGINE.md`](../docs/ENGINE.md#offline-evaluation) for Hit@k,
 Recall@k, MRR@k, and nDCG@k definitions.
 
-Development output and limitations are recorded under [`results/`](results/).
+Development and held-out output are recorded under [`results/`](results/).

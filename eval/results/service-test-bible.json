@@ -1,0 +1,711 @@
+{
+  "split": "test",
+  "k": 5,
+  "grounding": {
+    "bible": "World English Bible (Public Domain)",
+    "window_size": 5,
+    "window_stride": 3,
+    "bm25_k1": 1.5,
+    "bm25_b": 0.75,
+    "quotation_min_terms": 4,
+    "quotation_min_coverage": 0.52,
+    "narrative_min_coverage": 0.24,
+    "narrative_min_confidence": 0.5,
+    "narrative_min_terms": 3,
+    "rare_document_frequency": 12
+  },
+  "results": [
+    {
+      "name": "bm25_title",
+      "metrics": {
+        "hit_rate": 0.1,
+        "recall": 0.0625,
+        "mrr": 0.061250000000000006,
+        "ndcg": 0.05085334543138833,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.12121212121212122,
+          "recall": 0.07575757575757576,
+          "mrr": 0.07424242424242425,
+          "ndcg": 0.06164041870471313,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "bm25_bible",
+      "metrics": {
+        "hit_rate": 0.1,
+        "recall": 0.0625,
+        "mrr": 0.061250000000000006,
+        "ndcg": 0.05085334543138833,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.12121212121212122,
+          "recall": 0.07575757575757576,
+          "mrr": 0.07424242424242425,
+          "ndcg": 0.06164041870471313,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_title",
+      "metrics": {
+        "hit_rate": 0.175,
+        "recall": 0.0875,
+        "mrr": 0.08583333333333334,
+        "ndcg": 0.0657828481864019,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09191919191919191,
+          "ndcg": 0.06536116672477223,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.1,
+          "ndcg": 0.11859885638464811,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_title_rerank",
+      "metrics": {
+        "hit_rate": 0.175,
+        "recall": 0.0875,
+        "mrr": 0.08583333333333334,
+        "ndcg": 0.0657828481864019,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09191919191919191,
+          "ndcg": 0.06536116672477223,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.5,
+          "recall": 0.25,
+          "mrr": 0.1,
+          "ndcg": 0.11859885638464811,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_title_boost",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.075,
+        "mrr": 0.085,
+        "ndcg": 0.061859885638464805,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09696969696969697,
+          "ndcg": 0.06779387008391806,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.05,
+          "ndcg": 0.059299428192324054,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_title_full",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.0875,
+        "mrr": 0.085,
+        "ndcg": 0.07153120581932834,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.09090909090909091,
+          "mrr": 0.09696969696969697,
+          "ndcg": 0.07951668242435872,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.05,
+          "ndcg": 0.059299428192324054,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_bible",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.075,
+        "mrr": 0.08833333333333333,
+        "ndcg": 0.06359428272880063,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09191919191919191,
+          "ndcg": 0.06536116672477223,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.125,
+          "ndcg": 0.09671320180863541,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_bible_rerank",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.075,
+        "mrr": 0.08416666666666667,
+        "ndcg": 0.06158730245750532,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09191919191919191,
+          "ndcg": 0.06536116672477223,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.08333333333333333,
+          "ndcg": 0.0766433990956823,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_bible_boost",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.075,
+        "mrr": 0.10500000000000001,
+        "ndcg": 0.07125862263836887,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.07575757575757576,
+          "mrr": 0.09696969696969697,
+          "ndcg": 0.06779387008391806,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.25,
+          "ndcg": 0.1532867981913646,
+          "queries_evaluated": 4
+        }
+      }
+    },
+    {
+      "name": "dense_bible_full",
+      "metrics": {
+        "hit_rate": 0.15,
+        "recall": 0.0875,
+        "mrr": 0.08833333333333335,
+        "ndcg": 0.07326560290966418,
+        "queries_evaluated": 40
+      },
+      "categories": {
+        "abstract": {
+          "hit_rate": 0.15151515151515152,
+          "recall": 0.09090909090909091,
+          "mrr": 0.09696969696969697,
+          "ndcg": 0.07951668242435872,
+          "queries_evaluated": 33
+        },
+        "narrative": {
+          "hit_rate": 0.0,
+          "recall": 0.0,
+          "mrr": 0.0,
+          "ndcg": 0.0,
+          "queries_evaluated": 3
+        },
+        "quotation": {
+          "hit_rate": 0.25,
+          "recall": 0.125,
+          "mrr": 0.08333333333333333,
+          "ndcg": 0.0766433990956823,
+          "queries_evaluated": 4
+        }
+      }
+    }
+  ],
+  "grounding_audit": [
+    {
+      "original_query": "Who is your Friend?",
+      "grounded_query": "Who is your Friend?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Jesus The Sweetest Name",
+      "grounded_query": "Jesus The Sweetest Name",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "David - A Man After God's Heart",
+      "grounded_query": "David - A Man After God's Heart",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Death of Asahel",
+      "grounded_query": "Death of Asahel",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Going Back Home",
+      "grounded_query": "Going Back Home",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Why are you busy?",
+      "grounded_query": "Why are you busy?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "For You Have Been Called to Liberty",
+      "grounded_query": "For You Have Been Called to Liberty",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Watchmen in the House of God",
+      "grounded_query": "Watchmen in the House of God",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Called to be Set Apart",
+      "grounded_query": "Called to be Set Apart",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "From the Valley to Victory - The Two Paths of the Spiritual Life",
+      "grounded_query": "From the Valley to Victory - The Two Paths of the Spiritual Life",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "I Dare Not Reach Out My Hand Against the LORD's Anointed",
+      "grounded_query": "I Dare Not Reach Out My Hand Against the LORD's Anointed",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Sword and Ephod",
+      "grounded_query": "Sword and Ephod",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Jonathan: The Prince of God's Kingdom and a Mighty Warrior",
+      "grounded_query": "Jonathan: The Prince of God's Kingdom and a Mighty Warrior",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "It May Be that the Lord Will Work For Us",
+      "grounded_query": "It May Be that the Lord Will Work For Us",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Life is in the Blood",
+      "grounded_query": "Life is in the Blood",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Champion of Israel",
+      "grounded_query": "The Champion of Israel",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Young David",
+      "grounded_query": "Young David",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The King Rejected By God",
+      "grounded_query": "The King Rejected By God",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "On Whom is the Desire of All?",
+      "grounded_query": "On Whom is the Desire of All?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "From Ichabod to Ebenezer",
+      "grounded_query": "From Ichabod to Ebenezer",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Israel Demands a King",
+      "grounded_query": "Israel Demands a King. Bible context: Daniel 2:25-29. Then Arioch brought in Daniel before the king in haste, and said this to him: “I have found a man of the children of the captivity of Judah who will make known to the king the interpretation.” The king answered Daniel, whose name was Belteshazzar, “Are you able to make known to me the dream which I have seen, and its interpretation?” Daniel answered before the king, and said, “The secret which the king has demanded can’t be shown to the king by wise men, enchanters, magicians, or soothsayers; but there is a God in heaven who reveals secrets, and he has made known to King Nebuchadnezzar what will be in the latter days. Your dream and the visions of your head on your bed are these: “As for you, O king, your thoughts came on your bed, what should happen hereafter; and he who reveals secrets has made known to you what will happen.",
+      "reference": "Daniel 2:25-29",
+      "passage_text": "Then Arioch brought in Daniel before the king in haste, and said this to him: “I have found a man of the children of the captivity of Judah who will make known to the king the interpretation.” The king answered Daniel, whose name was Belteshazzar, “Are you able to make known to me the dream which I have seen, and its interpretation?” Daniel answered before the king, and said, “The secret which the king has demanded can’t be shown to the king by wise men, enchanters, magicians, or soothsayers; but there is a God in heaven who reveals secrets, and he has made known to King Nebuchadnezzar what will be in the latter days. Your dream and the visions of your head on your bed are these: “As for you, O king, your thoughts came on your bed, what should happen hereafter; and he who reveals secrets has made known to you what will happen.",
+      "source": "passage_bm25",
+      "confidence": 0.7013052907855388,
+      "query_type": "narrative"
+    },
+    {
+      "original_query": "Create in me a clean heart, O God",
+      "grounded_query": "Create in me a clean heart, O God. Bible context: Psalms 51:7-11. Purify me with hyssop, and I will be clean. Wash me, and I will be whiter than snow. Let me hear joy and gladness, that the bones which you have broken may rejoice. Hide your face from my sins, and blot out all of my iniquities. Create in me a clean heart, O God. Renew a right spirit within me. Don’t throw me from your presence, and don’t take your Holy Spirit from me.",
+      "reference": "Psalms 51:7-11",
+      "passage_text": "Purify me with hyssop, and I will be clean. Wash me, and I will be whiter than snow. Let me hear joy and gladness, that the bones which you have broken may rejoice. Hide your face from my sins, and blot out all of my iniquities. Create in me a clean heart, O God. Renew a right spirit within me. Don’t throw me from your presence, and don’t take your Holy Spirit from me.",
+      "source": "passage_bm25",
+      "confidence": 1.0,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "I planted, Apollos watered, but God was causing the growth",
+      "grounded_query": "I planted, Apollos watered, but God was causing the growth. Bible context: 1 Corinthians 3:4-8. For when one says, “I follow Paul,” and another, “I follow Apollos,” aren’t you fleshly? Who then is Apollos, and who is Paul, but servants through whom you believed, and each as the Lord gave to him? I planted. Apollos watered. But God gave the increase. So then neither he who plants is anything, nor he who waters, but God who gives the increase. Now he who plants and he who waters are the same, but each will receive his own reward according to his own labor.",
+      "reference": "1 Corinthians 3:4-8",
+      "passage_text": "For when one says, “I follow Paul,” and another, “I follow Apollos,” aren’t you fleshly? Who then is Apollos, and who is Paul, but servants through whom you believed, and each as the Lord gave to him? I planted. Apollos watered. But God gave the increase. So then neither he who plants is anything, nor he who waters, but God who gives the increase. Now he who plants and he who waters are the same, but each will receive his own reward according to his own labor.",
+      "source": "passage_bm25",
+      "confidence": 0.5697625762339528,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "The Two Debtors",
+      "grounded_query": "The Two Debtors",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Naomi Return with Ruth",
+      "grounded_query": "Naomi Return with Ruth",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "They Become Perfectly One",
+      "grounded_query": "They Become Perfectly One. Bible context: Jeremiah 23:19-23. Behold, Yahweh’s storm, his wrath, has gone out. Yes, a whirling storm! It will burst on the head of the wicked. Yahweh’s anger will not return until he has executed and performed the intents of his heart. In the latter days, you will understand it perfectly. I didn’t send these prophets, yet they ran. I didn’t speak to them, yet they prophesied. But if they had stood in my council, then they would have caused my people to hear my words, and would have turned them from their evil way, and from the evil of their doings. “Am I a God at hand,” says Yahweh, “and not a God afar off?",
+      "reference": "Jeremiah 23:19-23",
+      "passage_text": "Behold, Yahweh’s storm, his wrath, has gone out. Yes, a whirling storm! It will burst on the head of the wicked. Yahweh’s anger will not return until he has executed and performed the intents of his heart. In the latter days, you will understand it perfectly. I didn’t send these prophets, yet they ran. I didn’t speak to them, yet they prophesied. But if they had stood in my council, then they would have caused my people to hear my words, and would have turned them from their evil way, and from the evil of their doings. “Am I a God at hand,” says Yahweh, “and not a God afar off?",
+      "source": "passage_bm25",
+      "confidence": 0.5524947497723349,
+      "query_type": "narrative"
+    },
+    {
+      "original_query": "Coming Home",
+      "grounded_query": "Coming Home",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Secrets of Renewed Strength",
+      "grounded_query": "Secrets of Renewed Strength",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Fragrance of Christ",
+      "grounded_query": "The Fragrance of Christ",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "What do these stones mean to you?",
+      "grounded_query": "What do these stones mean to you?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Christ is the Firstfruits of Those Who have Fallen Asleep",
+      "grounded_query": "Christ is the Firstfruits of Those Who have Fallen Asleep. Bible context: 1 Corinthians 15:16-20. For if the dead aren’t raised, neither has Christ been raised. If Christ has not been raised, your faith is vain; you are still in your sins. Then they also who are fallen asleep in Christ have perished. If we have only hoped in Christ in this life, we are of all men most pitiable. But now Christ has been raised from the dead. He became the first fruit of those who are asleep.",
+      "reference": "1 Corinthians 15:16-20",
+      "passage_text": "For if the dead aren’t raised, neither has Christ been raised. If Christ has not been raised, your faith is vain; you are still in your sins. Then they also who are fallen asleep in Christ have perished. If we have only hoped in Christ in this life, we are of all men most pitiable. But now Christ has been raised from the dead. He became the first fruit of those who are asleep.",
+      "source": "passage_bm25",
+      "confidence": 0.825,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "Family Education in the Book of Judges",
+      "grounded_query": "Family Education in the Book of Judges",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "I Am The Bread of Life",
+      "grounded_query": "I Am The Bread of Life",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "What Are You Building?",
+      "grounded_query": "What Are You Building?",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Servitude of Moses",
+      "grounded_query": "Servitude of Moses",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Do Not Forget",
+      "grounded_query": "Do Not Forget",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Be United in the Same Mind and the Same Judgement",
+      "grounded_query": "Be United in the Same Mind and the Same Judgement",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "Two Questions That Paul asked the Lord",
+      "grounded_query": "Two Questions That Paul asked the Lord",
+      "reference": null,
+      "passage_text": "",
+      "source": null,
+      "confidence": 0.0,
+      "query_type": "abstract"
+    },
+    {
+      "original_query": "The Glory of God Fills the Temple",
+      "grounded_query": "The Glory of God Fills the Temple. Bible context: Revelation 15:4-8. Who wouldn’t fear you, Lord, and glorify your name? For you only are holy. For all the nations will come and worship before you. For your righteous acts have been revealed.” After these things I looked, and the temple of the tabernacle of the testimony in heaven was opened. The seven angels who had the seven plagues came out, clothed with pure, bright linen, and wearing golden sashes around their chests. One of the four living creatures gave to the seven angels seven golden bowls full of the wrath of God, who lives forever and ever. The temple was filled with smoke from the glory of God and from his power. No one was able to enter into the temple until the seven plagues of the seven angels would be finished.",
+      "reference": "Revelation 15:4-8",
+      "passage_text": "Who wouldn’t fear you, Lord, and glorify your name? For you only are holy. For all the nations will come and worship before you. For your righteous acts have been revealed.” After these things I looked, and the temple of the tabernacle of the testimony in heaven was opened. The seven angels who had the seven plagues came out, clothed with pure, bright linen, and wearing golden sashes around their chests. One of the four living creatures gave to the seven angels seven golden bowls full of the wrath of God, who lives forever and ever. The temple was filled with smoke from the glory of God and from his power. No one was able to enter into the temple until the seven plagues of the seven angels would be finished.",
+      "source": "passage_bm25",
+      "confidence": 0.8928571428571428,
+      "query_type": "quotation"
+    },
+    {
+      "original_query": "The Jawbone of a Donkey of Samson",
+      "grounded_query": "The Jawbone of a Donkey of Samson. Bible context: Judges 15:13-17. They spoke to him, saying, “No, but we will bind you securely and deliver you into their hands; but surely we will not kill you.” They bound him with two new ropes, and brought him up from the rock. When he came to Lehi, the Philistines shouted as they met him. Then Yahweh’s Spirit came mightily on him, and the ropes that were on his arms became as flax that was burned with fire; and his bands dropped from off his hands. He found a fresh jawbone of a donkey, put out his hand, took it, and struck a thousand men with it. Samson said, “With the jawbone of a donkey, heaps on heaps; with the jawbone of a donkey I have struck a thousand men.” When he had finished speaking, he threw the jawbone out of his hand; and that place was called Ramath Lehi.",
+      "reference": "Judges 15:13-17",
+      "passage_text": "They spoke to him, saying, “No, but we will bind you securely and deliver you into their hands; but surely we will not kill you.” They bound him with two new ropes, and brought him up from the rock. When he came to Lehi, the Philistines shouted as they met him. Then Yahweh’s Spirit came mightily on him, and the ropes that were on his arms became as flax that was burned with fire; and his bands dropped from off his hands. He found a fresh jawbone of a donkey, put out his hand, took it, and struck a thousand men with it. Samson said, “With the jawbone of a donkey, heaps on heaps; with the jawbone of a donkey I have struck a thousand men.” When he had finished speaking, he threw the jawbone out of his hand; and that place was called Ramath Lehi.",
+      "source": "passage_bm25",
+      "confidence": 0.9285714285714286,
+      "query_type": "narrative"
+    }
+  ]
+}

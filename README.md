@@ -42,10 +42,6 @@ python -m choirnetwork search "The crises of rebuilding (Ezra 4)" --bible-ground
 pytest tests/
 ```
 
-The web app applies curated topic expansion by default. In the CLI it is
-enabled with `--expand`; `--llm-expand` adds optional OpenAI-backed refinement
-when an API key is configured.
-
 ## Corpus provenance
 
 The local `data/raw/hymns.json` contains all 536 numbered and lettered entries
@@ -61,6 +57,41 @@ should be published or treated as character-perfect.
 The copyrighted hymn corpus and source PDF remain excluded from Git. The
 public-domain World English Bible verse corpus under `data/public/` is included
 so deterministic grounding can be reproduced.
+
+## Evaluation
+
+The benchmark contains 106 sermon titles and the two hymns used in each
+historical service. It is split into 66 development queries and 40 held-out
+test queries.
+
+These are observed choices, not exhaustive relevance labels. The scores
+measure how often the system reproduces a historical selection from the sermon
+title alone; other recommendations may still be appropriate.
+
+The retrieval configuration was selected on the development split and then
+evaluated once on the held-out split:
+
+| Held-out configuration | Hit@5 | Recall@5 | MRR@5 | nDCG@5 |
+|---|---:|---:|---:|---:|
+| BM25 | 10.0% | 6.2% | 6.1% | 5.1% |
+| Frozen dense system | 15.0% | 8.8% | 8.5% | 7.2% |
+
+The frozen system improved nDCG@5 by 2.1 percentage points, or 41% relative to
+BM25. It uses title-only dense retrieval, a lyric-term boost, and cross-encoder
+reranking.
+
+Development results at `k=5`:
+
+| Configuration | Hit@5 | Recall@5 | MRR@5 | nDCG@5 |
+|---|---:|---:|---:|---:|
+| BM25 | 13.6% | 6.8% | 7.8% | 5.7% |
+| Dense retrieval | 10.6% | 6.8% | 5.7% | 5.3% |
+| Dense + lyric boost | 12.1% | 7.6% | 6.8% | 6.0% |
+| Dense + boost + reranker | 13.6% | 8.3% | 6.4% | 6.1% |
+| Bible-grounded full system | 13.6% | 8.3% | 6.0% | 5.8% |
+
+See [`eval/README.md`](eval/README.md) for the protocol and
+[`eval/results/`](eval/results/) for the full ablation reports.
 
 ## Project structure
 
@@ -80,6 +111,12 @@ docs/
   ENGINE.md          # Retrieval architecture and implementation details
 tests/               # pytest suite
 ```
+
+## Optional query expansion
+
+The web app applies a curated topic map by default. The CLI enables it with
+`--expand`. `--llm-expand` can refine the query through OpenAI when an API key
+is configured; it is not part of the frozen evaluation configuration.
 
 ## Contributors
 
